@@ -8,7 +8,7 @@
     </div>
     <div class="array-items">
       <template v-for="item in items" :key="item">
-        <ArrayItem :id="item" />
+        <ArrayItem :id="item" @arrayItemValue="syncArrays(id, item, $event)" />
       </template>
     </div>
   </section>
@@ -19,6 +19,7 @@ import ArrayItem from "@/components/atoms/ArrayItem";
 
 export default {
   name: "Array",
+  emits: ["arrayValues"],
   components: {
     ArrayItem,
   },
@@ -31,8 +32,15 @@ export default {
     };
   },
   methods: {
-    addArrayItem: function () {
+    addArrayItem() {
       this.items++;
+    },
+    syncArrays(array, item, event) {
+      this.$emit("arrayValues", {
+        array: array,
+        item: item,
+        value: event,
+      });
     },
   },
 };

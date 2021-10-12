@@ -4,7 +4,7 @@
   </button>
   <main class="arrays">
     <template v-for="array in arrays" :key="array">
-      <Array :id="array" />
+      <Array :id="array" @arrayValues="checkArrays($event)" />
     </template>
   </main>
 </template>
@@ -14,6 +14,7 @@ import Array from "@/components/molecules/Array";
 
 export default {
   name: "Arrays",
+  emits: ["arrays"],
   components: {
     Array,
   },
@@ -25,6 +26,9 @@ export default {
   methods: {
     addNewArray() {
       this.arrays++;
+    },
+    checkArrays(event) {
+      this.$emit("arrays", event);
     },
   },
 };
