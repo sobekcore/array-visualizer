@@ -1,14 +1,17 @@
 <template>
   <Arrays @arrays="prepareArrays($event)" />
+  <Visualizer :arrays="arrays" />
 </template>
 
 <script>
 import Arrays from "@/components/organisms/Arrays";
+import Visualizer from "@/components/organisms/Visualizer";
 
 export default {
   name: "app",
   components: {
     Arrays,
+    Visualizer,
   },
   data() {
     return {
@@ -44,9 +47,6 @@ export default {
           value: event.value,
         });
       }
-
-      // Properly emitting all the arrays
-      console.log(this.arrays);
     },
   },
 };

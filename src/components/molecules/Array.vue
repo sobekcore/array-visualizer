@@ -1,8 +1,8 @@
 <template>
-  <section class="array">
+  <section :class="`array array-${id}`">
     <div class="array-header">
-      <h2 class="array-title">Array #{{ id }}</h2>
-      <button class="array-button" @click="addArrayItem()">
+      <h3 class="array-title">Array #{{ id }}</h3>
+      <button class="array-button interact" @click="addArrayItem()">
         Add Array <b>Item</b>
       </button>
     </div>
@@ -48,19 +48,16 @@ export default {
 
 <style lang="scss" scoped>
 .array {
-  border: 1px solid black;
+  border: 2px solid black;
   background: #eeeeee;
-  display: inline-block;
-  border-radius: 4px;
   padding: 14px;
-  margin: 8px;
 
   .array-header {
     display: inline-flex;
     justify-content: space-between;
-    background: #ddd;
+    border: 1px solid black;
     border-radius: 4px;
-    margin-bottom: 14px;
+    background: #ddd;
     padding: 12px;
     width: 100%;
     gap: 14px;
@@ -72,13 +69,14 @@ export default {
     .array-button {
       border-radius: 4px;
       border: 1px solid black;
-      background: lightblue;
+      background: #9292fa;
       cursor: pointer;
     }
   }
 
   .array-items {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     gap: 8px;
   }
 }
