@@ -1,14 +1,31 @@
 <template>
-  <section :class="`array array-${id}`">
+  <section :class="visual ? 'array' : `array array-${id}`">
     <div class="array-header">
-      <h3 class="array-title">Array #{{ id }}</h3>
-      <button class="array-button interact" @click="addArrayItem()">
+      <h3 class="array-title">
+        {{ title }}
+      </h3>
+      <button
+        v-if="!visual"
+        class="array-button interact"
+        @click="addArrayItem()"
+      >
         Add Array <b>Item</b>
       </button>
     </div>
     <div class="array-items">
-      <template v-for="item in items" :key="item">
-        <ArrayItem :id="item" @arrayItemValue="syncArrays(id, item, $event)" />
+      <template v-if="prepend">
+        <template v-for="item in prepend" :key="item">
+          <ArrayItem :visual="visual" :value="item" />
+        </template>
+      </template>
+      <template v-else>
+        <template v-for="item in items" :key="item">
+          <ArrayItem
+            :id="item"
+            :visual="visual"
+            @arrayItemValue="syncArrays(id, item, $event)"
+          />
+        </template>
       </template>
     </div>
   </section>
@@ -25,6 +42,9 @@ export default {
   },
   props: {
     id: Number,
+    title: String,
+    visual: Boolean,
+    prepend: Array,
   },
   data() {
     return {
@@ -48,6 +68,7 @@ export default {
 
 <style lang="scss" scoped>
 .array {
+  border-radius: 8px;
   border: 2px solid black;
   background: #eeeeee;
   padding: 14px;

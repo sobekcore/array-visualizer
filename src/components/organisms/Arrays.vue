@@ -4,7 +4,11 @@
   </button>
   <main class="arrays">
     <template v-for="array in arrays" :key="array">
-      <Array :id="array" @arrayValues="checkArrays($event)" />
+      <Array
+        :id="array"
+        :title="`Array #${array}`"
+        @arrayValues="checkArrays($event)"
+      />
     </template>
   </main>
 </template>
@@ -54,6 +58,7 @@ export default {
 .arrays {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  align-items: flex-start;
   padding-top: 44px;
   margin: 14px;
   gap: 14px;

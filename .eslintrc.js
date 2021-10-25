@@ -13,9 +13,6 @@ module.exports = {
   },
   ignorePatterns: [
     "utility.js",
+    "enums.js",
   ],
-  rules: {
-    "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
-    "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
-  },
 };

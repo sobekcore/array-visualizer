@@ -1,10 +1,11 @@
 <template>
-  <div :class="`array-item item-${id}`">
+  <div :class="generateItemClass(elements.item)">
     <input
       type="text"
-      class="array-input interact"
+      :class="generateItemClass(elements.input)"
       v-model="arrayItemValue"
       @input="returnItemValue($event)"
+      :disabled="visual"
     />
     <div class="item-marker"></div>
   </div>
@@ -16,13 +17,34 @@ export default {
   emits: ["arrayItemValue"],
   props: {
     id: Number,
+    visual: Boolean,
+    value: String,
   },
   data() {
     return {
-      arrayItemValue: this.getRandomValue(),
+      elements: {
+        item: "item",
+        input: "input",
+      },
+      arrayItemValue: this.$utility.oneOfTwo(this.value, this.getRandomValue()),
     };
   },
   methods: {
+    generateItemClass(element) {
+      let type = this.visual ? "visual" : "array";
+      let className;
+
+      switch (element) {
+        case this.elements.item:
+          className = `${type}-item` + (!this.visual ? ` item-${this.id}` : "");
+          break;
+        case this.elements.input:
+          className = `${type}-input` + (!this.visual ? " interact" : "");
+          break;
+      }
+
+      return className;
+    },
     getRandomValue() {
       return String(Math.floor(Math.random() * 1000 + 1));
     },
@@ -31,14 +53,18 @@ export default {
     },
   },
   mounted() {
-    this.returnItemValue(this.arrayItemValue, true);
+    if (!this.visual) {
+      this.returnItemValue(this.arrayItemValue, true);
+    }
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.array-item {
+.array-item,
+.visual-item {
   display: flex;
+  $ITEM_TRANSITION_TIME: 0.25s;
 
   .item-marker {
     width: 20px;
@@ -47,15 +73,17 @@ export default {
     background: #9292fa;
   }
 
-  .array-input {
+  .array-input,
+  .visual-input {
     width: 100%;
     padding: 4px;
     border-radius: 4px 0 0 4px;
     border: 1px solid black;
     border-right: none;
     background: #ddd;
+    transition: background $ITEM_TRANSITION_TIME ease-in-out;
 
-    &.interact[disabled] {
+    &[disabled] {
       color: initial;
     }
   }
