@@ -1,0 +1,19 @@
+@mixin ui-header() {
+  & {
+    display: inline-flex;
+    background: $main-medium-color;
+    width: 100%;
+
+    & button {
+      border: none;
+      padding: 12px;
+      background: $main-dark-color;
+      color: $font-light-color;
+
+      &:hover {
+        background: $main-light-color;
+        cursor: pointer;
+      }
+    }
+  }
+}

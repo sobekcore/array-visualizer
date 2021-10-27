@@ -1,6 +1,9 @@
 <template>
-  <Arrays @arrays="prepareArrays($event)" />
-  <Visualizer :arrays="arrays" />
+  <main class="application">
+    <Arrays @arrays="prepareArrays($event)" />
+    <div class="separator"></div>
+    <Visualizer :arrays="arrays" />
+  </main>
 </template>
 
 <script>
@@ -51,3 +54,15 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.application {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  min-height: 100vh;
+
+  .separator {
+    background: $main-light-color;
+  }
+}
+</style>

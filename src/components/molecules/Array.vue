@@ -9,7 +9,7 @@
         class="array-button interact"
         @click="addArrayItem()"
       >
-        Add Array <b>Item</b>
+        Add Array Item
       </button>
     </div>
     <div class="array-items">
@@ -68,29 +68,29 @@ export default {
 
 <style lang="scss" scoped>
 .array {
-  border-radius: 8px;
-  border: 2px solid black;
-  background: #eeeeee;
+  background: $main-medium-color;
   padding: 14px;
 
   .array-header {
     display: inline-flex;
     justify-content: space-between;
-    border: 1px solid black;
-    border-radius: 4px;
-    background: #ddd;
+    background: $main-light-color;
     padding: 12px;
     width: 100%;
     gap: 14px;
 
     .array-title {
+      color: $font-light-color;
+      font-style: italic;
       margin: 0;
     }
 
     .array-button {
+      border: none;
       border-radius: 4px;
-      border: 1px solid black;
-      background: #9292fa;
+      background: $main-blue-color;
+      color: $font-light-color;
+      font-weight: bold;
       cursor: pointer;
     }
   }

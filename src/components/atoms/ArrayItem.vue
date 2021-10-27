@@ -7,7 +7,7 @@
       @input="returnItemValue($event)"
       :disabled="visual"
     />
-    <div class="item-marker"></div>
+    <div v-if="!visual" class="item-marker"></div>
   </div>
 </template>
 
@@ -64,33 +64,30 @@ export default {
 .array-item,
 .visual-item {
   display: flex;
-  $ITEM_TRANSITION_TIME: 0.25s;
 
   .item-marker {
-    width: 20px;
-    border-radius: 0 4px 4px 0;
-    border: 1px solid black;
-    background: #9292fa;
+    width: 22px;
+    background: $main-blue-color;
   }
 
   .array-input,
   .visual-input {
     width: 100%;
     padding: 4px;
-    border-radius: 4px 0 0 4px;
-    border: 1px solid black;
-    border-right: none;
-    background: #ddd;
+    border: none;
+    color: $font-light-color;
+    background: $main-light-color;
     transition: background $ITEM_TRANSITION_TIME ease-in-out;
+    z-index: 1;
 
     &[disabled] {
-      color: initial;
+      color: $font-light-color;
     }
   }
 
   &.included {
     .array-input {
-      background: #9292fa;
+      background: $main-blue-color;
     }
   }
 

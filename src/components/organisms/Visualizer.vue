@@ -1,17 +1,14 @@
 <template>
-  <div>
-    <h2>Visualizer</h2>
-    <button
-      type="button"
-      class="visualize-arrays interact"
-      @click="visualizeArrays()"
-    >
-      Visualize
-    </button>
+  <section class="visualizer">
+    <div class="visualizer-header">
+      <button class="visualize-arrays interact" @click="visualizeArrays()">
+        Visualize
+      </button>
+    </div>
     <template v-if="arrayResults.length > 0">
       <Array :visual="true" title="Visualized Array" :prepend="arrayResults" />
     </template>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -67,6 +64,7 @@ export default {
         if (arrays[i].length > 0) {
           setTimeout(() => {
             let array = document.querySelector(`.array-${i}`);
+            array.scrollIntoView({ behavior: "smooth" });
             arrays[i].forEach((item, id) => {
               setTimeout(() => {
                 compareArrays[i][id] = item.value;
@@ -125,19 +123,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.visualize-arrays {
-  position: fixed;
-  border: 2px solid black;
-  box-shadow: 2px 0 12px black;
-  height: 44px;
-  width: 50%;
-  top: 0;
-  left: 50%;
-  transition: background 0.2s ease-out;
+.visualizer {
+  max-height: 100vh;
+  overflow-y: auto;
 
-  &:hover {
-    background: #9292fa;
-    cursor: pointer;
+  .visualizer-header {
+    @include ui-header;
+  }
+
+  .array {
+    margin: 14px;
   }
 }
 </style>
