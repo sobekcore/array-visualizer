@@ -1,3 +1,5 @@
 export default {
+  GRID_COLUMNS_AMOUNT: 3,
   ITEM_TRANSITION_TIME: 0.25,
+  ARRAY_GRID_GAP: 14,
 };

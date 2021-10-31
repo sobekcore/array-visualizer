@@ -53,7 +53,7 @@ export default {
 
   .arrays-display {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat($GRID_COLUMNS_AMOUNT, 1fr);
     align-items: flex-start;
     margin: 14px;
     gap: 14px;

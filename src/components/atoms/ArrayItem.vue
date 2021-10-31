@@ -64,6 +64,7 @@ export default {
 .array-item,
 .visual-item {
   display: flex;
+  height: 24px;
 
   .item-marker {
     width: 22px;

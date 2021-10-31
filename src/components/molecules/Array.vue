@@ -49,6 +49,7 @@ export default {
   data() {
     return {
       items: 0,
+      offset: 0,
     };
   },
   methods: {
@@ -56,12 +57,38 @@ export default {
       this.items++;
     },
     syncArrays(array, item, event) {
+      this.calculateOffset();
       this.$emit("arrayValues", {
         array: array,
         item: item,
         value: event,
       });
     },
+    calculateOffset() {
+      let columns = this.$enums.GRID_COLUMNS_AMOUNT;
+      let arrays = document.querySelectorAll(".arrays-display .array");
+
+      for (let id = 1; id <= arrays.length; id++) {
+        let beforeId = id - columns;
+        let arrayBefore = document.querySelector(`.array-${beforeId}`);
+        let currentArray = document.querySelector(`.array-${id}`);
+
+        if (arrayBefore && currentArray) {
+          let start = arrayBefore.getBoundingClientRect().bottom;
+          let end = currentArray.getBoundingClientRect().top;
+          let arrayOffset = start - end + this.$enums.ARRAY_GRID_GAP;
+
+          if (arrayOffset !== 0) {
+            let arrayMargin = currentArray.style.marginTop;
+            let margin = Number(arrayMargin.slice(0, -2)) + arrayOffset;
+            currentArray.style.marginTop = `${margin}px`;
+          }
+        }
+      }
+    },
+  },
+  mounted() {
+    this.calculateOffset();
   },
 };
 </script>
