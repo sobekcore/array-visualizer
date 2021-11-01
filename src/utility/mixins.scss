@@ -1,19 +1,35 @@
+/* USER INTERFACE */
+@mixin ui-section() {
+  max-height: 100vh;
+  overflow-y: auto;
+
+  @media (max-width: $SMALL_SIZE_RESPONSIVE) {
+    max-height: none;
+  }
+}
+
 @mixin ui-header() {
-  & {
-    display: inline-flex;
-    background: $main-medium-color;
-    width: 100%;
+  display: inline-flex;
+  background: $main-medium-color;
+  width: 100%;
 
-    & button {
-      border: none;
-      padding: 12px;
-      background: $main-dark-color;
-      color: $font-light-color;
+  button {
+    border: none;
+    padding: 12px;
+    background: $main-dark-color;
+    color: $font-light-color;
 
-      &:hover {
-        background: $main-light-color;
-        cursor: pointer;
-      }
+    &:hover {
+      background: $main-light-color;
+      cursor: pointer;
     }
   }
+}
+
+/* UTILITY */
+@mixin input-outline() {
+  $shadow: 0 0 0 1px $font-light-color;
+  box-shadow: $shadow, inset $shadow;
+  border-radius: 3px;
+  outline: none;
 }

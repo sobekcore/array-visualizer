@@ -28,6 +28,12 @@ export default {
     };
   },
   methods: {
+    disableInteraction(disable = true) {
+      let elements = document.querySelectorAll(".interact");
+      elements.forEach((element) => {
+        element.disabled = disable ? true : false;
+      });
+    },
     visualizeArrays() {
       this.disableInteraction(true);
 
@@ -43,6 +49,7 @@ export default {
         return false;
       }
 
+      // Add empty arrays to help with calculations
       for (let i = 1; i <= Object.keys(arrays)[length - 1]; i++) {
         if (!arrays[i]) {
           arrays[i] = [];
@@ -65,11 +72,13 @@ export default {
           setTimeout(() => {
             let array = document.querySelector(`.array-${i}`);
             array.scrollIntoView({ behavior: "smooth" });
+
             arrays[i].forEach((item, id) => {
               setTimeout(() => {
                 compareArrays[i][id] = item.value;
                 let arrayItem = array.querySelector(`.item-${++id}`);
                 arrayItem.className += " included";
+
                 if (id === arrays[i].length) {
                   arraysChecked++;
                   if (arraysChecked === length) {
@@ -87,12 +96,6 @@ export default {
         }
       }
     },
-    disableInteraction(disable = true) {
-      let elements = document.querySelectorAll(".interact");
-      elements.forEach((element) => {
-        element.disabled = disable ? true : false;
-      });
-    },
     calculateArrays(compareArrays) {
       // Arrays to make calculations
       console.log(
@@ -103,11 +106,17 @@ export default {
       );
 
       let itemTransitionTime = this.$enums.ITEM_TRANSITION_TIME;
+      let arrayTimeout = this.$utility.getTime("second", itemTransitionTime);
 
       setTimeout(() => {
         let arrayResult = [].concat(...Object.values(compareArrays));
         this.arrayResults = arrayResult;
-      }, this.$utility.getTime("second", itemTransitionTime));
+      }, arrayTimeout);
+
+      setTimeout(() => {
+        let visualizerHeader = document.querySelector(".visualizer-header");
+        visualizerHeader.scrollIntoView({ behavior: "smooth" });
+      }, arrayTimeout);
 
       setTimeout(() => {
         let arrayItems = document.querySelectorAll(".array-item");
@@ -124,15 +133,14 @@ export default {
 
 <style lang="scss" scoped>
 .visualizer {
-  max-height: 100vh;
-  overflow-y: auto;
+  @include ui-section;
 
   .visualizer-header {
     @include ui-header;
   }
 
   .array {
-    margin: 14px;
+    margin: $ARRAY_GRID_GAP;
   }
 }
 </style>

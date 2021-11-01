@@ -16,4 +16,13 @@ export default {
   oneOfTwo: (left, right) => {
     return left ? left : (right ? right : null);
   },
+  debounce: (event, callback, delay = 200) => {
+    let debounce;
+    window.addEventListener(event, () => {
+      clearTimeout(debounce);
+      debounce = setTimeout(() => {
+        callback();
+      }, delay);
+    });
+  },
 };

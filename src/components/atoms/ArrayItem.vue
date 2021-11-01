@@ -2,6 +2,7 @@
   <div :class="generateItemClass(elements.item)">
     <input
       type="text"
+      spellcheck="false"
       :class="generateItemClass(elements.input)"
       v-model="arrayItemValue"
       @input="returnItemValue($event)"
@@ -80,6 +81,10 @@ export default {
     background: $main-light-color;
     transition: background $ITEM_TRANSITION_TIME ease-in-out;
     z-index: 1;
+
+    &:focus {
+      @include input-outline;
+    }
 
     &[disabled] {
       color: $font-light-color;

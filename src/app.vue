@@ -1,5 +1,5 @@
 <template>
-  <main class="application">
+  <main class="application" role="application">
     <Arrays @arrays="prepareArrays($event)" />
     <div class="separator"></div>
     <Visualizer :arrays="arrays" />
@@ -59,10 +59,18 @@ export default {
 .application {
   display: grid;
   grid-template-columns: 1fr 1px 1fr;
+  grid-template-rows: 1fr;
   min-height: 100vh;
+
+  @media (max-width: $SMALL_SIZE_RESPONSIVE) {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1px auto;
+  }
 
   .separator {
     background: $main-light-color;
+    height: 100%;
+    width: 100%;
   }
 }
 </style>

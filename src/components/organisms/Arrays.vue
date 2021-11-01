@@ -29,6 +29,8 @@ export default {
   data() {
     return {
       arrays: 0,
+      width: window.innerWidth,
+      resize: false,
     };
   },
   methods: {
@@ -38,14 +40,22 @@ export default {
     checkArrays(event) {
       this.$emit("arrays", event);
     },
+    resizeArrays() {
+      let screen = window.innerWidth;
+      let size = this.$enums.MEDIUM_SIZE_RESPONSIVE;
+      this.resize = screen > size && this.width <= size ? true : false;
+      this.width = screen;
+    },
+  },
+  mounted() {
+    this.$utility.debounce("resize", this.resizeArrays, 100);
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .arrays {
-  max-height: 100vh;
-  overflow-y: auto;
+  @include ui-section;
 
   .arrays-header {
     @include ui-header;
@@ -55,8 +65,16 @@ export default {
     display: grid;
     grid-template-columns: repeat($GRID_COLUMNS_AMOUNT, 1fr);
     align-items: flex-start;
-    margin: 14px;
-    gap: 14px;
+    margin: $ARRAY_GRID_GAP;
+    gap: $ARRAY_GRID_GAP;
+
+    @media (max-width: $MEDIUM_SIZE_RESPONSIVE) {
+      grid-template-columns: 1fr;
+
+      .array {
+        margin-top: 0 !important;
+      }
+    }
   }
 }
 </style>

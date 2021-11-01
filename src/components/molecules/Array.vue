@@ -65,30 +65,48 @@ export default {
       });
     },
     calculateOffset() {
-      let columns = this.$enums.GRID_COLUMNS_AMOUNT;
-      let arrays = document.querySelectorAll(".arrays-display .array");
+      if (window.innerWidth > this.$enums.MEDIUM_SIZE_RESPONSIVE) {
+        let columns = this.$enums.GRID_COLUMNS_AMOUNT;
+        let arrays = document.querySelectorAll(".arrays-display .array");
+        let following = columns * (Math.ceil(this.id / columns) - 1) + 1;
 
-      for (let id = 1; id <= arrays.length; id++) {
-        let beforeId = id - columns;
-        let arrayBefore = document.querySelector(`.array-${beforeId}`);
-        let currentArray = document.querySelector(`.array-${id}`);
+        // Skip first grid row (no point to calculate)
+        if (following < columns + 1) {
+          following = columns + 1;
+        }
 
-        if (arrayBefore && currentArray) {
-          let start = arrayBefore.getBoundingClientRect().bottom;
-          let end = currentArray.getBoundingClientRect().top;
-          let arrayOffset = start - end + this.$enums.ARRAY_GRID_GAP;
+        for (let id = following; id <= arrays.length; id++) {
+          let beforeId = id - columns;
+          let arrayBefore = document.querySelector(`.array-${beforeId}`);
+          let currentArray = document.querySelector(`.array-${id}`);
 
-          if (arrayOffset !== 0) {
-            let arrayMargin = currentArray.style.marginTop;
-            let margin = Number(arrayMargin.slice(0, -2)) + arrayOffset;
-            currentArray.style.marginTop = `${margin}px`;
+          if (arrayBefore && currentArray) {
+            let { bottom: start } = arrayBefore.getBoundingClientRect();
+            let { top: end } = currentArray.getBoundingClientRect();
+            let arrayOffset = start - end + this.$enums.ARRAY_GRID_GAP;
+
+            if (arrayOffset !== 0) {
+              let arrayMargin = currentArray.style.marginTop;
+              let margin = Number(arrayMargin.slice(0, -2)) + arrayOffset;
+              currentArray.style.marginTop = `${margin}px`;
+            }
           }
         }
       }
     },
   },
+  watch: {
+    "$parent.resize"() {
+      if (this.$parent.resize) {
+        this.calculateOffset();
+        this.$parent.resize = false;
+      }
+    },
+  },
   mounted() {
-    this.calculateOffset();
+    if (!this.visual) {
+      this.calculateOffset();
+    }
   },
 };
 </script>
