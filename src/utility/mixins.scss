@@ -8,20 +8,72 @@
   }
 }
 
+@mixin ui-button() {
+  border: none;
+  padding: 12px;
+  user-select: none;
+  background: $main-dark-color;
+  color: $font-light-color;
+  font-family: sans-serif;
+  font-size: 14px;
+
+  &:hover {
+    background: $main-light-color;
+    cursor: pointer;
+  }
+}
+
 @mixin ui-header() {
   display: inline-flex;
   background: $main-medium-color;
   width: 100%;
+  gap: 1px;
 
   button {
-    border: none;
-    padding: 12px;
-    background: $main-dark-color;
-    color: $font-light-color;
+    @include ui-button;
+  }
+}
 
-    &:hover {
+@mixin ui-dropdown() {
+  position: relative;
+  background: $main-dark-color;
+  z-index: 2;
+
+  .dropdown-button {
+    @include ui-button;
+
+    &.active {
       background: $main-light-color;
-      cursor: pointer;
+    }
+
+    .dropdown-icon {
+      margin-left: 6px;
+      transform: translateY(1px) scale(2);
+      font-size: 12px;
+    }
+  }
+
+  .dropdown-list {
+    position: absolute;
+    list-style: none;
+    background: $main-light-color;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+
+    .dropdown-item {
+      @include text-overflow;
+      padding: 10px 6px;
+      color: $font-light-color;
+      font-family: sans-serif;
+      text-align: center;
+      font-size: 14px;
+
+      &:hover {
+        background: $main-medium-color;
+        color: $font-light-color;
+        cursor: pointer;
+      }
     }
   }
 }
@@ -32,4 +84,10 @@
   box-shadow: $shadow, inset $shadow;
   border-radius: 3px;
   outline: none;
+}
+
+@mixin text-overflow() {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

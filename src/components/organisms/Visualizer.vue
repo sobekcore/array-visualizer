@@ -4,20 +4,29 @@
       <button class="visualize-arrays interact" @click="visualizeArrays()">
         Visualize
       </button>
+      <Dropdown
+        :config="config"
+        :title="config[0].name"
+        @value="changeOperationType($event)"
+      />
     </div>
     <template v-if="arrayResults.length > 0">
-      <Array :visual="true" title="Visualized Array" :prepend="arrayResults" />
+      <Array :visual="true" :prepend="arrayResults">Visualized Array</Array>
     </template>
   </section>
 </template>
 
 <script>
 import Array from "@/components/molecules/Array";
+import Dropdown from "@/components/atoms/Dropdown";
+import Calculate from "@/assets/operations.js";
+import Configs from "@/assets/configs.js";
 
 export default {
   name: "Visualizer",
   components: {
     Array,
+    Dropdown,
   },
   props: {
     arrays: Object,
@@ -25,6 +34,8 @@ export default {
   data() {
     return {
       arrayResults: [],
+      operation: this.$enums.CONCAT_OPERATION,
+      config: Configs.operations(),
     };
   },
   methods: {
@@ -109,7 +120,7 @@ export default {
       let arrayTimeout = this.$utility.getTime("second", itemTransitionTime);
 
       setTimeout(() => {
-        let arrayResult = [].concat(...Object.values(compareArrays));
+        let arrayResult = Calculate(compareArrays, this.operation);
         this.arrayResults = arrayResult;
       }, arrayTimeout);
 
@@ -126,6 +137,9 @@ export default {
         });
         this.disableInteraction(false);
       }, this.$utility.getTime("second", 2));
+    },
+    changeOperationType(event) {
+      this.operation = event;
     },
   },
 };

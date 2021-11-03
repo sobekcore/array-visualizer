@@ -7,11 +7,9 @@
     </div>
     <div class="arrays-display">
       <template v-for="array in arrays" :key="array">
-        <Array
-          :id="array"
-          :title="`Array #${array}`"
-          @arrayValues="checkArrays($event)"
-        />
+        <Array :id="array" @arrayValues="checkArrays($event)">
+          Array #{{ array }}
+        </Array>
       </template>
     </div>
   </section>

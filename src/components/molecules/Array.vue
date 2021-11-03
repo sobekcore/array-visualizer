@@ -2,7 +2,7 @@
   <section :class="visual ? 'array' : `array array-${id}`">
     <div class="array-header">
       <h3 class="array-title">
-        {{ title }}
+        <slot></slot>
       </h3>
       <button
         v-if="!visual"
