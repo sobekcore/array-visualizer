@@ -1,6 +1,6 @@
 <template>
   <main class="application" role="application">
-    <Arrays @arrays="prepareArrays($event)" />
+    <Arrays :load="load" @arrays="prepareArrays($event)" />
     <div class="separator"></div>
     <Visualizer :arrays="arrays" />
   </main>
@@ -19,38 +19,55 @@ export default {
   data() {
     return {
       arrays: {},
+      load: {},
     };
   },
   methods: {
     prepareArrays(event) {
+      if (!event) {
+        this.load = {};
+        this.arrays = {};
+        this.$utility.localStorageSave("arrays", this.arrays);
+        return false;
+      }
+
       let id = event.array;
       if (!this.arrays[id]) {
         this.arrays[id] = [];
       }
 
-      let array = this.arrays[id];
-      let alreadyCreated = false;
-      let i = 0;
+      if (event.item && event.value) {
+        let array = this.arrays[id];
+        let iterator = array.entries();
+        let alreadyCreated = false;
 
-      for (let value of array) {
-        if (value.item === event.item) {
-          array[i] = {
+        for (let [id, value] of iterator) {
+          if (value.item === event.item) {
+            array[id] = {
+              item: event.item,
+              value: event.value,
+            };
+            alreadyCreated = true;
+            break;
+          }
+        }
+
+        if (!alreadyCreated) {
+          array.push({
             item: event.item,
             value: event.value,
-          };
-          alreadyCreated = true;
-          break;
+          });
         }
-        i++;
       }
 
-      if (!alreadyCreated) {
-        array.push({
-          item: event.item,
-          value: event.value,
-        });
-      }
+      this.$utility.localStorageSave("arrays", this.arrays);
     },
+    loadArrays() {
+      this.load = this.$utility.localStorageGet("arrays");
+    },
+  },
+  mounted() {
+    this.loadArrays();
   },
 };
 </script>

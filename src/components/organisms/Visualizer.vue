@@ -1,17 +1,21 @@
 <template>
   <section class="visualizer">
     <div class="visualizer-header">
-      <button class="visualize-arrays interact" @click="visualizeArrays()">
-        Visualize
+      <button class="header-button interact" @click="visualizeArrays()">
+        <MaterialIcon class="header-icon" name="visibility" /> Visualize
       </button>
       <Dropdown
         :config="config"
         :title="config[0].name"
         @value="changeOperationType($event)"
       />
+      <div class="header-stretch-split"></div>
+      <button class="header-button interact">
+        <MaterialIcon class="header-icon" name="download" /> Export
+      </button>
     </div>
     <template v-if="arrayResults.length > 0">
-      <Array :visual="true" :prepend="arrayResults">Visualized Array</Array>
+      <Array :visual="true" :load="arrayResults">Visualized Array</Array>
     </template>
   </section>
 </template>
@@ -19,6 +23,7 @@
 <script>
 import Array from "@/components/molecules/Array";
 import Dropdown from "@/components/atoms/Dropdown";
+import MaterialIcon from "@/components/atoms/MaterialIcon";
 import Calculate from "@/assets/operations.js";
 import Configs from "@/assets/configs.js";
 
@@ -27,6 +32,7 @@ export default {
   components: {
     Array,
     Dropdown,
+    MaterialIcon,
   },
   props: {
     arrays: Object,
@@ -58,14 +64,6 @@ export default {
       if (length === 0) {
         this.disableInteraction(false);
         return false;
-      }
-
-      // Add empty arrays to help with calculations
-      for (let i = 1; i <= Object.keys(arrays)[length - 1]; i++) {
-        if (!arrays[i]) {
-          arrays[i] = [];
-          length++;
-        }
       }
 
       let items = 0;

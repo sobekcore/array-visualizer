@@ -1,4 +1,10 @@
 export default {
+  localStorageSave: (key, value) => {
+    localStorage.setItem(key, JSON.stringify(value));
+  },
+  localStorageGet: (key) => {
+    return JSON.parse(localStorage.getItem(key));
+  },
   toJSON: (object) => {
     return JSON.parse(JSON.stringify(object));
   },

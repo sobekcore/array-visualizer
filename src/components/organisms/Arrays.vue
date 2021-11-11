@@ -1,13 +1,24 @@
 <template>
   <section class="arrays">
     <div class="arrays-header">
-      <button class="add-new-array interact" @click="addNewArray()">
-        Add new Array
+      <button class="header-button interact" @click="addNewArray()">
+        <MaterialIcon class="header-icon" name="add_box" /> Add new Array
+      </button>
+      <button class="header-button interact" @click="removeArrays()">
+        <MaterialIcon class="header-icon" name="delete" /> Remove
+      </button>
+      <div class="header-stretch-split"></div>
+      <button class="header-button interact">
+        <MaterialIcon class="header-icon" name="upload" /> Import
       </button>
     </div>
     <div class="arrays-display">
       <template v-for="array in arrays" :key="array">
-        <Array :id="array" @arrayValues="checkArrays($event)">
+        <Array
+          :id="array"
+          :load="load[array]"
+          @arrayValues="checkArrays($event)"
+        >
           Array #{{ array }}
         </Array>
       </template>
@@ -17,12 +28,17 @@
 
 <script>
 import Array from "@/components/molecules/Array";
+import MaterialIcon from "@/components/atoms/MaterialIcon";
 
 export default {
   name: "Arrays",
   emits: ["arrays"],
   components: {
     Array,
+    MaterialIcon,
+  },
+  props: {
+    load: Object,
   },
   data() {
     return {
@@ -34,6 +50,7 @@ export default {
   methods: {
     addNewArray() {
       this.arrays++;
+      this.checkArrays({ array: this.arrays });
     },
     checkArrays(event) {
       this.$emit("arrays", event);
@@ -44,9 +61,23 @@ export default {
       this.resize = screen > size && this.width <= size ? true : false;
       this.width = screen;
     },
+    removeArrays() {
+      let message = "Do you want to remove all the arrays?";
+      if (this.arrays > 0 && confirm(message)) {
+        this.arrays = 0;
+        this.checkArrays(null);
+      }
+    },
+    loadArrays(arrays) {
+      let length = Object.keys(arrays).length;
+      for (let i = 1; i <= length; i++) {
+        this.addNewArray();
+      }
+    },
   },
   mounted() {
     this.$utility.debounce("resize", this.resizeArrays, 100);
+    this.$nextTick(() => this.loadArrays(this.load));
   },
 };
 </script>

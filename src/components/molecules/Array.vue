@@ -13,19 +13,20 @@
       </button>
     </div>
     <div class="array-items">
-      <template v-if="prepend">
-        <template v-for="item in prepend" :key="item">
-          <ArrayItem :visual="visual" :value="item" />
-        </template>
+      <template v-for="(item, count) in load" :key="++count">
+        <ArrayItem
+          :id="count"
+          :visual="visual"
+          :value="$utility.oneOfTwo(item.value, item)"
+          @arrayItemValue="syncArrays(id, count, $event)"
+        />
       </template>
-      <template v-else>
-        <template v-for="item in items" :key="item">
-          <ArrayItem
-            :id="item"
-            :visual="visual"
-            @arrayItemValue="syncArrays(id, item, $event)"
-          />
-        </template>
+      <template v-for="item in items" :key="item + populated">
+        <ArrayItem
+          :id="item + populated"
+          :visual="visual"
+          @arrayItemValue="syncArrays(id, item + populated, $event)"
+        />
       </template>
     </div>
   </section>
@@ -44,12 +45,13 @@ export default {
     id: Number,
     title: String,
     visual: Boolean,
-    prepend: Array,
+    load: Array,
   },
   data() {
     return {
       items: 0,
       offset: 0,
+      populated: this.load ? this.load.length : 0,
     };
   },
   methods: {
