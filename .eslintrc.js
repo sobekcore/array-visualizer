@@ -12,6 +12,7 @@ module.exports = {
     ecmaVersion: 2020,
   },
   ignorePatterns: [
+    "configs.js",
     "utility.js",
     "enums.js",
   ],

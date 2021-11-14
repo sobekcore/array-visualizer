@@ -7,6 +7,9 @@ export default {
   INTERSECT_OPERATION: "intersect",
   UNION_OPERATION: "union",
 
+  JSON_FILE_FORMAT: "json",
+  CSV_FILE_FORMAT: "csv",
+
   GRID_COLUMNS_AMOUNT: 3,
   ITEM_TRANSITION_TIME: 0.25,
   ARRAY_GRID_GAP: 14,

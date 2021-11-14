@@ -1,18 +1,26 @@
-import Enums from "@/utility/enums";
+import enums from "@/utility/enums";
+import Papa from "papaparse";
 
 const uniqueArrays = (array) => {
   return [...new Set([].concat(...array))];
 };
 
-export default function Calculate(compareArrays, operation) {
+/**
+ * Calculate Arrays before visualizing them
+ *
+ * @param {Object} compareArrays Arrays to compare with each-self
+ * @param {String} operation Operation type to execute between arrays
+ * @returns {Array} Calculated Arrays ready to visualize
+ */
+function calculate(compareArrays, operation) {
   compareArrays = Object.values(compareArrays);
   let arrayResult = [];
 
   switch (operation) {
-    case Enums.CONCAT_OPERATION:
+    case enums.CONCAT_OPERATION:
       arrayResult = [].concat(...compareArrays);
       break;
-    case Enums.DIFF_OPERATION:
+    case enums.DIFF_OPERATION:
       arrayResult = [].concat(
         ...compareArrays.map((array, id) => {
           let others = compareArrays.slice(0);
@@ -22,15 +30,58 @@ export default function Calculate(compareArrays, operation) {
         })
       );
       break;
-    case Enums.INTERSECT_OPERATION:
+    case enums.INTERSECT_OPERATION:
       arrayResult = compareArrays.reduce((a, b) =>
         a.filter((c) => b.includes(c))
       );
       break;
-    case Enums.UNION_OPERATION:
+    case enums.UNION_OPERATION:
       arrayResult = uniqueArrays(compareArrays);
       break;
   }
 
   return arrayResult;
 }
+
+/**
+ * Processes imported file contents into a Object
+ *
+ * @param {String} content Imported file content as a String
+ * @param {String} type Type of a supported imported file
+ * @returns {Object} Ready to load processed Object
+ */
+function process(content, type) {
+  let properResult = {};
+  let imported = [];
+
+  switch (type) {
+    case enums.JSON_FILE_FORMAT: {
+      let parsed = JSON.parse(content);
+      imported = Object.values(parsed);
+      break;
+    }
+    case enums.CSV_FILE_FORMAT: {
+      let options = { skipEmptyLines: true };
+      let parsed = Papa.parse(content, options);
+      imported = parsed.data;
+      break;
+    }
+  }
+
+  // Transform imported data into proper Object
+  imported.forEach((array, id) => {
+    properResult[++id] = [];
+    array.forEach((value) => {
+      properResult[id].push({
+        value: String(value),
+      });
+    });
+  });
+
+  return properResult;
+}
+
+export default {
+  calculate,
+  process,
+};

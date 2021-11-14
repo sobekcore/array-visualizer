@@ -8,7 +8,8 @@
         <MaterialIcon class="header-icon" name="delete" /> Remove
       </button>
       <div class="header-stretch-split"></div>
-      <button class="header-button interact">
+      <button class="header-button interact" @click="importArrays()">
+        <input class="import-arrays" type="file" @click.stop />
         <MaterialIcon class="header-icon" name="upload" /> Import
       </button>
     </div>
@@ -29,6 +30,9 @@
 <script>
 import Array from "@/components/molecules/Array";
 import MaterialIcon from "@/components/atoms/MaterialIcon";
+import operations from "@/assets/operations.js";
+import configs from "@/assets/configs.js";
+import debounce from "lodash.debounce";
 
 export default {
   name: "Arrays",
@@ -69,15 +73,64 @@ export default {
       }
     },
     loadArrays(arrays) {
+      this.arrays = 0;
       let length = Object.keys(arrays).length;
       for (let i = 1; i <= length; i++) {
         this.addNewArray();
       }
     },
+    importArrays() {
+      let importArrays = document.querySelector(".import-arrays");
+      importArrays.click();
+
+      importArrays.addEventListener("change", this.loadFile, { once: true });
+    },
+    loadFile(event) {
+      let promise = this.readFromFile(event);
+
+      promise.then((result) => {
+        this.checkArrays({
+          arrays: result,
+          import: true,
+        });
+      });
+
+      promise.then(() => {
+        event.target.value = null;
+      });
+    },
+    readFromFile(event) {
+      return new Promise((resolve, reject) => {
+        let file = event.target.files[0];
+        let fileFormats = configs.acceptedFileFormats();
+        let type = file.type.split("/")[1];
+
+        if (!fileFormats.includes(type)) {
+          reject("Unsupported file format.");
+        }
+
+        const reader = new FileReader();
+        reader.readAsText(file);
+
+        reader.onload = () => {
+          let preparedResult = operations.process(reader.result, type);
+          resolve(preparedResult);
+        };
+
+        reader.onerror = () => {
+          alert(reader.error.message);
+          reject(reader.error.message);
+        };
+      });
+    },
+  },
+  watch: {
+    load() {
+      this.loadArrays(this.load);
+    },
   },
   mounted() {
-    this.$utility.debounce("resize", this.resizeArrays, 100);
-    this.$nextTick(() => this.loadArrays(this.load));
+    window.addEventListener("resize", debounce(this.resizeArrays, 100));
   },
 };
 </script>
@@ -88,6 +141,10 @@ export default {
 
   .arrays-header {
     @include ui-header;
+
+    .import-arrays {
+      display: none;
+    }
   }
 
   .arrays-display {

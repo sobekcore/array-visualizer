@@ -24,8 +24,8 @@
 import Array from "@/components/molecules/Array";
 import Dropdown from "@/components/atoms/Dropdown";
 import MaterialIcon from "@/components/atoms/MaterialIcon";
-import Calculate from "@/assets/operations.js";
-import Configs from "@/assets/configs.js";
+import operations from "@/assets/operations.js";
+import configs from "@/assets/configs.js";
 
 export default {
   name: "Visualizer",
@@ -41,7 +41,7 @@ export default {
     return {
       arrayResults: [],
       operation: this.$enums.CONCAT_OPERATION,
-      config: Configs.operations(),
+      config: configs.operations(),
     };
   },
   methods: {
@@ -118,7 +118,7 @@ export default {
       let arrayTimeout = this.$utility.getTime("second", itemTransitionTime);
 
       setTimeout(() => {
-        let arrayResult = Calculate(compareArrays, this.operation);
+        let arrayResult = operations.calculate(compareArrays, this.operation);
         this.arrayResults = arrayResult;
       }, arrayTimeout);
 
