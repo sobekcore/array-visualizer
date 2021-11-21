@@ -5,6 +5,13 @@ const uniqueArrays = (array) => {
   return [...new Set([].concat(...array))];
 };
 
+const arrayDifference = (compareArrays, array, id) => {
+  let others = compareArrays.slice(0);
+  others.splice(id, 1);
+  let unique = uniqueArrays(others);
+  return array.filter((value) => !unique.includes(value));
+};
+
 /**
  * Calculate Arrays before visualizing them
  *
@@ -14,6 +21,9 @@ const uniqueArrays = (array) => {
  */
 function calculate(compareArrays, operation) {
   compareArrays = Object.values(compareArrays);
+
+  let pointer = 0;
+  let compareAgainst = compareArrays[pointer];
   let arrayResult = [];
 
   switch (operation) {
@@ -21,12 +31,12 @@ function calculate(compareArrays, operation) {
       arrayResult = [].concat(...compareArrays);
       break;
     case enums.DIFF_OPERATION:
+      arrayResult = arrayDifference(compareArrays, compareAgainst, pointer);
+      break;
+    case enums.SYM_DIFF_OPERATION:
       arrayResult = [].concat(
         ...compareArrays.map((array, id) => {
-          let others = compareArrays.slice(0);
-          others.splice(id, 1);
-          let unique = uniqueArrays(others);
-          return array.filter((value) => !unique.includes(value));
+          return arrayDifference(compareArrays, array, id);
         })
       );
       break;

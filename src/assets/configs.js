@@ -11,6 +11,7 @@ export default {
     return [
       { name: "Concatenation", value: enums.CONCAT_OPERATION },
       { name: "Difference", value: enums.DIFF_OPERATION },
+      { name: "Sym. Difference", value: enums.SYM_DIFF_OPERATION },
       { name: "Intersection", value: enums.INTERSECT_OPERATION },
       { name: "Union", value: enums.UNION_OPERATION },
     ];

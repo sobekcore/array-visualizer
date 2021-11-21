@@ -4,6 +4,7 @@ export default {
 
   CONCAT_OPERATION: "concat",
   DIFF_OPERATION: "diff",
+  SYM_DIFF_OPERATION: "sym-diff",
   INTERSECT_OPERATION: "intersect",
   UNION_OPERATION: "union",
 
