@@ -15,4 +15,10 @@ export default {
       { name: "Union", value: enums.UNION_OPERATION },
     ];
   },
+  visualizer: () => {
+    return [
+      { label: "JSON", value: enums.JSON_FILE_FORMAT, icon: "download" },
+      { label: "CSV", value: enums.CSV_FILE_FORMAT, icon: "download" },
+    ];
+  },
 };

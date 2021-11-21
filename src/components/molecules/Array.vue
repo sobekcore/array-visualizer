@@ -133,12 +133,7 @@ export default {
     }
 
     .array-button {
-      border: none;
-      border-radius: 4px;
-      background: $main-blue-color;
-      color: $font-light-color;
-      font-weight: bold;
-      cursor: pointer;
+      @include ui-button;
     }
   }
 

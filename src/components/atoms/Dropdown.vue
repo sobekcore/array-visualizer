@@ -35,7 +35,6 @@ export default {
   data() {
     return {
       text: this.title,
-      width: 0,
       active: false,
     };
   },
@@ -73,5 +72,12 @@ export default {
 <style lang="scss" scoped>
 .dropdown {
   @include ui-dropdown;
+
+  .dropdown-list {
+    @media (max-width: $SMALL_SIZE_RESPONSIVE) {
+      transform: translateY(-100%);
+      margin-top: -$header-height;
+    }
+  }
 }
 </style>

@@ -13,7 +13,7 @@
         <MaterialIcon class="header-icon" name="upload" /> Import
       </button>
     </div>
-    <div class="arrays-display">
+    <div v-if="arrays > 0" class="arrays-display">
       <template v-for="array in arrays" :key="array">
         <Array
           :id="array"
@@ -83,7 +83,9 @@ export default {
       let importArrays = document.querySelector(".import-arrays");
       importArrays.click();
 
-      importArrays.addEventListener("change", this.loadFile, { once: true });
+      importArrays.addEventListener("change", this.loadFile, {
+        once: true,
+      });
     },
     loadFile(event) {
       let promise = this.readFromFile(event);
@@ -142,6 +144,11 @@ export default {
   .arrays-header {
     @include ui-header;
 
+    @media (max-width: $SMALL_SIZE_RESPONSIVE) {
+      position: fixed;
+      height: inherit;
+    }
+
     .import-arrays {
       display: none;
     }
@@ -159,6 +166,12 @@ export default {
 
       .array {
         margin-top: 0 !important;
+
+        &:first-child {
+          @media (max-width: $SMALL_SIZE_RESPONSIVE) {
+            margin-top: $header-height !important;
+          }
+        }
       }
     }
   }

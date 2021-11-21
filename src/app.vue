@@ -3,6 +3,7 @@
     <Arrays :load="load" @arrays="prepareArrays($event)" />
     <div class="separator"></div>
     <Visualizer :arrays="arrays" />
+    <div class="background"></div>
   </main>
 </template>
 
@@ -99,6 +100,16 @@ export default {
     background: $main-light-color;
     height: 100%;
     width: 100%;
+  }
+
+  .background {
+    $gradient: to bottom, $main-dark-color 25%, rgba($main-dark-color, 0) 125%;
+    background: linear-gradient($gradient), url("~@/assets/pattern.png");
+    opacity: 0.06;
+    position: fixed;
+    min-height: 100%;
+    width: 100%;
+    z-index: -1;
   }
 }
 </style>

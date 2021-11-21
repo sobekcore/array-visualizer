@@ -8,7 +8,28 @@
   }
 }
 
-@mixin ui-button() {
+@mixin ui-button($inactive: false) {
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  border: none;
+  background: $main-blue-color;
+  color: $font-light-color;
+  font-weight: bold;
+  font-size: 13px;
+  min-height: 22px;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  @if ($inactive) {
+    background: $main-medium-color;
+    border: 2px solid $main-light-color;
+  }
+}
+
+@mixin ui-header-item() {
   border: none;
   padding: 12px;
   user-select: none;
@@ -26,17 +47,20 @@
 }
 
 @mixin ui-header() {
+  top: 0;
+  position: sticky;
   display: inline-flex;
   background: $main-medium-color;
   width: 100%;
   gap: 1px;
+  z-index: 2;
 
   .header-stretch-split {
     flex-grow: 1;
   }
 
   .header-button {
-    @include ui-button;
+    @include ui-header-item;
 
     .header-icon {
       font-size: 14px;
@@ -48,10 +72,10 @@
 @mixin ui-dropdown() {
   position: relative;
   background: $main-dark-color;
-  z-index: 2;
+  z-index: 3;
 
   .dropdown-button {
-    @include ui-button;
+    @include ui-header-item;
 
     &.active {
       background: $main-light-color;
@@ -89,6 +113,70 @@
   }
 }
 
+@mixin ui-modal() {
+  $modal-margin: 20px;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  row-gap: $modal-margin;
+  border-radius: 4px;
+  border: 2px solid $main-light-color;
+  box-shadow: 0 0 $modal-margin * 3 black;
+  transform: translate(-50%, -50%);
+  background: $main-dark-color;
+  color: $font-light-color;
+  padding: $modal-margin;
+  max-width: 300px;
+  left: 50%;
+  top: 50%;
+  z-index: 5;
+
+  .modal-header {
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: $modal-margin;
+
+    .modal-title {
+      font-size: 20px;
+      color: $font-light-color;
+      margin: 0;
+    }
+
+    .modal-close {
+      cursor: pointer;
+    }
+  }
+
+  .modal-content {
+    margin: 0 0 $modal-margin / 4;
+  }
+
+  .modal-buttons {
+    display: inline-flex;
+    column-gap: $modal-margin / 2;
+    margin-left: auto;
+
+    .modal-big-button,
+    .modal-button {
+      @include ui-button(true);
+    }
+
+    .modal-big-button {
+      column-gap: 6px;
+      padding: 20px;
+
+      .modal-button-icon {
+        font-size: 20px;
+      }
+    }
+
+    .main-button {
+      @include ui-button;
+    }
+  }
+}
+
 /* UTILITY */
 @mixin input-outline() {
   $shadow: 0 0 0 1px $font-light-color;
@@ -101,4 +189,14 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+@mixin inactive-background($z-index) {
+  z-index: $z-index;
+  background: rgba(black, 0.33);
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
 }

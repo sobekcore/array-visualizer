@@ -5,14 +5,23 @@
         <MaterialIcon class="header-icon" name="visibility" /> Visualize
       </button>
       <Dropdown
-        :config="config"
-        :title="config[0].name"
+        :config="configOperations"
+        :title="configOperations[0].name"
         @value="changeOperationType($event)"
       />
       <div class="header-stretch-split"></div>
-      <button class="header-button interact">
+      <button class="header-button interact" @click="openExportModal()">
         <MaterialIcon class="header-icon" name="download" /> Export
       </button>
+      <Modal
+        v-if="exportModal"
+        title="Export file type"
+        :buttons="configVisualizer"
+        :bigButtons="true"
+        :closeButton="true"
+        @result="exportArrays($event)"
+      >
+      </Modal>
     </div>
     <template v-if="arrayResults.length > 0">
       <Array :visual="true" :load="arrayResults">Visualized Array</Array>
@@ -24,8 +33,11 @@
 import Array from "@/components/molecules/Array";
 import Dropdown from "@/components/atoms/Dropdown";
 import MaterialIcon from "@/components/atoms/MaterialIcon";
+import Modal from "@/components/molecules/Modal";
 import operations from "@/assets/operations.js";
 import configs from "@/assets/configs.js";
+import debounce from "lodash.debounce";
+import Papa from "papaparse";
 
 export default {
   name: "Visualizer",
@@ -33,6 +45,7 @@ export default {
     Array,
     Dropdown,
     MaterialIcon,
+    Modal,
   },
   props: {
     arrays: Object,
@@ -41,7 +54,9 @@ export default {
     return {
       arrayResults: [],
       operation: this.$enums.CONCAT_OPERATION,
-      config: configs.operations(),
+      configOperations: configs.operations(),
+      configVisualizer: configs.visualizer(),
+      exportModal: false,
     };
   },
   methods: {
@@ -106,25 +121,20 @@ export default {
       }
     },
     calculateArrays(compareArrays) {
-      // Arrays to make calculations
-      console.log(
-        "%c" + "Arrays to calculate",
-        "color: yellow;",
-        compareArrays,
-        "\n--------------"
-      );
-
       let itemTransitionTime = this.$enums.ITEM_TRANSITION_TIME;
       let arrayTimeout = this.$utility.getTime("second", itemTransitionTime);
 
       setTimeout(() => {
+        this.arrayResults = [];
         let arrayResult = operations.calculate(compareArrays, this.operation);
-        this.arrayResults = arrayResult;
+        this.$nextTick(() => {
+          this.arrayResults = arrayResult;
+        });
       }, arrayTimeout);
 
       setTimeout(() => {
-        let visualizerHeader = document.querySelector(".visualizer-header");
-        visualizerHeader.scrollIntoView({ behavior: "smooth" });
+        let separator = document.querySelector(".separator");
+        separator.scrollIntoView({ behavior: "smooth" });
       }, arrayTimeout);
 
       setTimeout(() => {
@@ -139,6 +149,61 @@ export default {
     changeOperationType(event) {
       this.operation = event;
     },
+    openExportModal() {
+      if (this.arrayResults.length > 0) {
+        this.exportModal = true;
+      }
+    },
+    exportArrays(event) {
+      this.exportModal = false;
+      if (this.arrayResults.length > 0 && event) {
+        let exportFileType = event;
+        let arrays = this.$utility.toJSON(this.arrayResults);
+        let dataToExport = Object.values(arrays);
+        let fileBlob, fileName;
+
+        switch (exportFileType) {
+          case this.$enums.JSON_FILE_FORMAT:
+            fileName = `${configs.application()}-data.json`;
+            fileBlob = new File([JSON.stringify(dataToExport)], fileName, {
+              type: "application/json",
+            });
+            break;
+          case this.$enums.CSV_FILE_FORMAT:
+            fileName = `${configs.application()}-data.csv`;
+            fileBlob = new File([Papa.unparse([dataToExport])], fileName, {
+              type: "text/csv",
+            });
+            break;
+        }
+
+        if (fileBlob && fileName) {
+          let link = document.createElement("a");
+          link.href = URL.createObjectURL(fileBlob);
+          link.download = fileName;
+          link.click();
+        }
+      }
+    },
+    hideHeaderOnMobile() {
+      let headerOpacity = 1;
+
+      if (this.arrayResults.length === 0) {
+        if (window.innerWidth <= this.$enums.SMALL_SIZE_RESPONSIVE) {
+          let pageHeight = document.body.scrollHeight;
+          let scroll = window.scrollY + window.innerHeight;
+          if (scroll >= pageHeight) {
+            headerOpacity = 0;
+          }
+        }
+      }
+
+      let header = document.querySelector(".visualizer-header");
+      header.style.opacity = headerOpacity;
+    },
+  },
+  mounted() {
+    window.addEventListener("scroll", debounce(this.hideHeaderOnMobile, 50));
   },
 };
 </script>
@@ -149,10 +214,22 @@ export default {
 
   .visualizer-header {
     @include ui-header;
+    transition: opacity 0.2s ease-out;
+
+    @media (max-width: $SMALL_SIZE_RESPONSIVE) {
+      top: initial;
+      position: fixed;
+      height: inherit;
+      bottom: 0;
+    }
   }
 
   .array {
     margin: $ARRAY_GRID_GAP;
+
+    @media (max-width: $SMALL_SIZE_RESPONSIVE) {
+      margin-bottom: $header-height + $ARRAY_GRID_GAP;
+    }
   }
 }
 </style>
