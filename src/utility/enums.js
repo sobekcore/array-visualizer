@@ -3,10 +3,12 @@ export default {
   SMALL_SIZE_RESPONSIVE: 699,
 
   CONCAT_OPERATION: "concat",
+  UNION_OPERATION: "union",
+  INTERSECT_OPERATION: "intersect",
   DIFF_OPERATION: "diff",
   SYM_DIFF_OPERATION: "sym-diff",
-  INTERSECT_OPERATION: "intersect",
-  UNION_OPERATION: "union",
+  SORT_OPERATION: "sort",
+  UNIQUE_SORT_OPERATION: "unique-sort",
 
   JSON_FILE_FORMAT: "json",
   CSV_FILE_FORMAT: "csv",
@@ -14,4 +16,5 @@ export default {
   GRID_COLUMNS_AMOUNT: 3,
   ITEM_TRANSITION_TIME: 0.25,
   ARRAY_GRID_GAP: 14,
+  HEADER_HEIGHT: 40,
 };

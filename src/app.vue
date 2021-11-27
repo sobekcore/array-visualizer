@@ -94,6 +94,7 @@ export default {
   @media (max-width: $SMALL_SIZE_RESPONSIVE) {
     grid-template-columns: 1fr;
     grid-template-rows: auto 1px auto;
+    padding-bottom: $HEADER_HEIGHT;
   }
 
   .separator {

@@ -5,6 +5,10 @@ const uniqueArrays = (array) => {
   return [...new Set([].concat(...array))];
 };
 
+const sortArray = (array) => {
+  return array.sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+};
+
 const arrayDifference = (compareArrays, array, id) => {
   let others = compareArrays.slice(0);
   others.splice(id, 1);
@@ -30,6 +34,14 @@ function calculate(compareArrays, operation) {
     case enums.CONCAT_OPERATION:
       arrayResult = [].concat(...compareArrays);
       break;
+    case enums.UNION_OPERATION:
+      arrayResult = uniqueArrays(compareArrays);
+      break;
+    case enums.INTERSECT_OPERATION:
+      arrayResult = compareArrays.reduce((a, b) =>
+        a.filter((c) => b.includes(c))
+      );
+      break;
     case enums.DIFF_OPERATION:
       arrayResult = arrayDifference(compareArrays, compareAgainst, pointer);
       break;
@@ -40,13 +52,11 @@ function calculate(compareArrays, operation) {
         })
       );
       break;
-    case enums.INTERSECT_OPERATION:
-      arrayResult = compareArrays.reduce((a, b) =>
-        a.filter((c) => b.includes(c))
-      );
+    case enums.SORT_OPERATION:
+      arrayResult = sortArray([].concat(...compareArrays));
       break;
-    case enums.UNION_OPERATION:
-      arrayResult = uniqueArrays(compareArrays);
+    case enums.UNIQUE_SORT_OPERATION:
+      arrayResult = sortArray(uniqueArrays(compareArrays));
       break;
   }
 

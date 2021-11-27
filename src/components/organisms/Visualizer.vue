@@ -36,7 +36,6 @@ import MaterialIcon from "@/components/atoms/MaterialIcon";
 import Modal from "@/components/molecules/Modal";
 import operations from "@/assets/operations.js";
 import configs from "@/assets/configs.js";
-import debounce from "lodash.debounce";
 import Papa from "papaparse";
 
 export default {
@@ -132,10 +131,20 @@ export default {
         });
       }, arrayTimeout);
 
-      setTimeout(() => {
-        let separator = document.querySelector(".separator");
-        separator.scrollIntoView({ behavior: "smooth" });
-      }, arrayTimeout);
+      // Scroll to visualized array after calculations on mobile
+      if (window.innerWidth <= this.$enums.SMALL_SIZE_RESPONSIVE) {
+        setTimeout(() => {
+          let offset = this.$enums.HEADER_HEIGHT;
+          let separator = document.querySelector(".separator");
+          let { top: height } = separator.getBoundingClientRect();
+          let position = height + window.scrollY;
+
+          window.scrollTo({
+            top: position - offset,
+            behavior: "smooth",
+          });
+        }, arrayTimeout);
+      }
 
       setTimeout(() => {
         let arrayItems = document.querySelectorAll(".array-item");
@@ -185,25 +194,6 @@ export default {
         }
       }
     },
-    hideHeaderOnMobile() {
-      let headerOpacity = 1;
-
-      if (this.arrayResults.length === 0) {
-        if (window.innerWidth <= this.$enums.SMALL_SIZE_RESPONSIVE) {
-          let pageHeight = document.body.scrollHeight;
-          let scroll = window.scrollY + window.innerHeight;
-          if (scroll >= pageHeight) {
-            headerOpacity = 0;
-          }
-        }
-      }
-
-      let header = document.querySelector(".visualizer-header");
-      header.style.opacity = headerOpacity;
-    },
-  },
-  mounted() {
-    window.addEventListener("scroll", debounce(this.hideHeaderOnMobile, 50));
   },
 };
 </script>
@@ -214,7 +204,6 @@ export default {
 
   .visualizer-header {
     @include ui-header;
-    transition: opacity 0.2s ease-out;
 
     @media (max-width: $SMALL_SIZE_RESPONSIVE) {
       top: initial;
@@ -226,10 +215,6 @@ export default {
 
   .array {
     margin: $ARRAY_GRID_GAP;
-
-    @media (max-width: $SMALL_SIZE_RESPONSIVE) {
-      margin-bottom: $header-height + $ARRAY_GRID_GAP;
-    }
   }
 }
 </style>

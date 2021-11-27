@@ -10,10 +10,12 @@ export default {
   operations: () => {
     return [
       { name: "Concatenation", value: enums.CONCAT_OPERATION },
+      { name: "Union", value: enums.UNION_OPERATION },
+      { name: "Intersection", value: enums.INTERSECT_OPERATION },
       { name: "Difference", value: enums.DIFF_OPERATION },
       { name: "Sym. Difference", value: enums.SYM_DIFF_OPERATION },
-      { name: "Intersection", value: enums.INTERSECT_OPERATION },
-      { name: "Union", value: enums.UNION_OPERATION },
+      { name: "Sort", value: enums.SORT_OPERATION },
+      { name: "Unique Sort", value: enums.UNIQUE_SORT_OPERATION },
     ];
   },
   visualizer: () => {

@@ -169,7 +169,7 @@ export default {
 
         &:first-child {
           @media (max-width: $SMALL_SIZE_RESPONSIVE) {
-            margin-top: $header-height !important;
+            margin-top: $HEADER_HEIGHT !important;
           }
         }
       }

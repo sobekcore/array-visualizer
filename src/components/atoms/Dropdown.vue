@@ -76,7 +76,7 @@ export default {
   .dropdown-list {
     @media (max-width: $SMALL_SIZE_RESPONSIVE) {
       @include dropdown-transform(true);
-      margin-top: -$header-height;
+      margin-top: -$HEADER_HEIGHT;
     }
   }
 }
