@@ -1,5 +1,5 @@
 <template>
-  <div ref="dropdown" class="dropdown interact" @click="toggleDropdown($event)">
+  <div ref="dropdown" :class="className" @click="toggleDropdown($event)">
     <button :class="active ? 'dropdown-button active' : 'dropdown-button'">
       <span class="dropdown-value">{{ text }}</span>
       <MaterialIcon class="dropdown-icon" name="arrow_drop_down" />
@@ -29,12 +29,16 @@ export default {
     MaterialIcon,
   },
   props: {
+    class: String,
     config: Array,
     title: String,
   },
   data() {
     return {
       text: this.title,
+      className: this.class
+        ? `dropdown interact ${this.class}`
+        : "dropdown interact",
       active: false,
     };
   },

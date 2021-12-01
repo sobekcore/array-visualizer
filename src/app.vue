@@ -1,4 +1,5 @@
 <template>
+  <Guide v-if="guide" @closed="loadGuide($event)" />
   <main class="application" role="application">
     <Arrays :load="load" @arrays="prepareArrays($event)" />
     <div class="separator"></div>
@@ -10,6 +11,7 @@
 <script>
 import Arrays from "@/components/organisms/Arrays";
 import Visualizer from "@/components/organisms/Visualizer";
+import Guide from "@/components/organisms/Guide";
 import configs from "@/assets/configs.js";
 
 export default {
@@ -17,15 +19,30 @@ export default {
   components: {
     Arrays,
     Visualizer,
+    Guide,
   },
   data() {
     return {
       application: configs.application(),
+      guide: false,
       arrays: {},
       load: {},
     };
   },
   methods: {
+    loadGuide(closed) {
+      let cookieName = `${this.application}-guide`;
+      let guide = this.$utility.cookieGet(cookieName);
+      let showGuide = false;
+
+      if (closed) {
+        this.$utility.cookieSave(cookieName, false, 30);
+      } else if (!guide) {
+        showGuide = true;
+      }
+
+      this.guide = showGuide;
+    },
     prepareArrays(event) {
       let alreadyComputed = false;
 
@@ -79,6 +96,7 @@ export default {
     },
   },
   mounted() {
+    this.loadGuide();
     this.loadArrays();
   },
 };

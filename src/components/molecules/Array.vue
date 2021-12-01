@@ -6,7 +6,7 @@
       </h3>
       <button
         v-if="!visual"
-        class="array-button interact"
+        class="array-button add-array-item interact"
         @click="addArrayItem()"
       >
         Add Array Item

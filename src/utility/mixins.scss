@@ -196,7 +196,7 @@
 
 @mixin inactive-background($z-index) {
   z-index: $z-index;
-  background: rgba(black, 0.33);
+  background: rgba(black, 0.5);
   position: fixed;
   height: 100%;
   width: 100%;
@@ -219,4 +219,3 @@
   }
   transform: translateY($offset);
 }
-

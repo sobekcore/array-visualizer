@@ -1,6 +1,6 @@
 <template>
   <div class="modal-background"></div>
-  <div class="modal-box">
+  <div :class="className">
     <div class="modal-header">
       <h2 v-if="title" class="modal-title">{{ title }}</h2>
       <MaterialIcon
@@ -39,6 +39,7 @@ export default {
     MaterialIcon,
   },
   props: {
+    class: String,
     title: String,
     content: String,
     buttons: Array,
@@ -47,6 +48,7 @@ export default {
   },
   data() {
     return {
+      className: this.class ? `modal-box ${this.class}` : "modal-box",
       buttonsDefinition: this.$utility.oneOfTwo(this.buttons, [
         { label: "Cancel", value: false },
         { label: "Accept", value: true, main: true },

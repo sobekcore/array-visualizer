@@ -1,20 +1,28 @@
 <template>
   <section class="visualizer">
     <div class="visualizer-header">
-      <button class="header-button interact" @click="visualizeArrays()">
+      <button
+        class="header-button visualize-arrays interact"
+        @click="visualizeArrays()"
+      >
         <MaterialIcon class="header-icon" name="visibility" /> Visualize
       </button>
       <Dropdown
+        class="change-operation-type"
         :config="configOperations"
         :title="configOperations[0].name"
         @value="changeOperationType($event)"
       />
       <div class="header-stretch-split"></div>
-      <button class="header-button interact" @click="openExportModal()">
+      <button
+        class="header-button export-arrays interact"
+        @click="openExportModal()"
+      >
         <MaterialIcon class="header-icon" name="download" /> Export
       </button>
       <Modal
         v-if="exportModal"
+        class="export-modal"
         title="Export file type"
         :buttons="configVisualizer"
         :bigButtons="true"
@@ -159,7 +167,8 @@ export default {
       this.operation = event;
     },
     openExportModal() {
-      if (this.arrayResults.length > 0) {
+      let anyModal = document.querySelector(".modal-box");
+      if (!anyModal && this.arrayResults.length > 0) {
         this.exportModal = true;
       }
     },

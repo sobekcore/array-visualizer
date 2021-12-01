@@ -1,9 +1,19 @@
-export default {
+const utility = {
   localStorageSave: (key, value) => {
     localStorage.setItem(key, JSON.stringify(value));
   },
   localStorageGet: (key) => {
     return JSON.parse(localStorage.getItem(key));
+  },
+  cookieSave: (key, value, expire) => {
+    let date = new Date();
+    date.setTime(date.getTime() + utility.getTime("day", expire));
+    let expires = `expires=${date.toUTCString()}`;
+    document.cookie = `${key}=${value}; ${expires};`;
+  },
+  cookieGet: (key) => {
+    let splitted = document.cookie.split(`${key}=`);
+    return splitted.length === 1 ? "" : splitted.pop().split(";").shift();
   },
   toJSON: (object) => {
     return JSON.parse(JSON.stringify(object));
@@ -22,4 +32,6 @@ export default {
   oneOfTwo: (left, right) => {
     return left ? left : (right ? right : null);
   },
-};
+}
+
+export default utility;

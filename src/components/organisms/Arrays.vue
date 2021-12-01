@@ -1,15 +1,24 @@
 <template>
   <section class="arrays">
     <div class="arrays-header">
-      <button class="header-button interact" @click="addNewArray()">
+      <button
+        class="header-button add-new-array interact"
+        @click="addNewArray()"
+      >
         <MaterialIcon class="header-icon" name="add_box" /> Add new Array
       </button>
-      <button class="header-button interact" @click="removeArrays()">
+      <button
+        class="header-button remove-arrays interact"
+        @click="removeArrays()"
+      >
         <MaterialIcon class="header-icon" name="delete" /> Remove
       </button>
       <div class="header-stretch-split"></div>
-      <button class="header-button interact" @click="importArrays()">
-        <input class="import-arrays" type="file" @click.stop />
+      <button
+        class="header-button import-arrays interact"
+        @click="importArrays()"
+      >
+        <input class="import-arrays-file" type="file" @click.stop />
         <MaterialIcon class="header-icon" name="upload" /> Import
       </button>
     </div>
@@ -80,7 +89,7 @@ export default {
       }
     },
     importArrays() {
-      let importArrays = document.querySelector(".import-arrays");
+      let importArrays = document.querySelector(".import-arrays-file");
       importArrays.click();
 
       importArrays.addEventListener("change", this.loadFile, {
@@ -149,7 +158,7 @@ export default {
       height: inherit;
     }
 
-    .import-arrays {
+    .import-arrays-file {
       display: none;
     }
   }

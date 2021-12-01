@@ -15,4 +15,8 @@ body {
 
 .material-icons {
   user-select: none;
+
+  &.hide-icon {
+    visibility: hidden;
+  }
 }

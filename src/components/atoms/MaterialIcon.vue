@@ -1,5 +1,5 @@
 <template>
-  <span :class="this.class ? `material-icons ${this.class}` : 'material-icons'">
+  <span ref="icon" :class="className">
     {{ name }}
   </span>
 </template>
@@ -10,6 +10,26 @@ export default {
   props: {
     class: String,
     name: String,
+  },
+  data() {
+    return {
+      className: this.class ? `material-icons ${this.class}` : "material-icons",
+    };
+  },
+  methods: {
+    showIconsAfterLoad() {
+      let icon = this.$refs.icon;
+      icon.className += " hide-icon";
+      window.addEventListener("load", this.makeIconsVisible, { once: true });
+    },
+    makeIconsVisible() {
+      let icon = this.$refs.icon;
+      let className = icon.className;
+      icon.className = this.$utility.removeAfterLastChar(className, " ");
+    },
+  },
+  mounted() {
+    this.showIconsAfterLoad();
   },
 };
 </script>
