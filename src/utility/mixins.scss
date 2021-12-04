@@ -129,8 +129,8 @@
   color: $font-light-color;
   padding: $modal-margin;
   max-width: 300px;
-  left: 50%;
-  top: 50%;
+  margin: 50vh 50%;
+  width: 100%;
   z-index: 5;
 
   .modal-header {

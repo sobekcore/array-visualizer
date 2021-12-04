@@ -77,6 +77,10 @@ function process(content, type) {
   switch (type) {
     case enums.JSON_FILE_FORMAT: {
       let parsed = JSON.parse(content);
+      let firstChild = Object.values(parsed)[0];
+      if (!Array.isArray(firstChild)) {
+        parsed = [parsed];
+      }
       imported = Object.values(parsed);
       break;
     }
