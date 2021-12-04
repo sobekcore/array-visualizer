@@ -10,8 +10,8 @@
         @click="closeModal()"
       />
     </div>
-    <p v-if="content" class="modal-content">{{ content }}</p>
-    <div class="modal-buttons">
+    <p v-if="content" class="modal-content" v-html="content"></p>
+    <div v-if="buttonsDefinition.length > 0" class="modal-buttons">
       <template v-for="button in buttonsDefinition" :key="button">
         <button
           :class="buttonClass(button.main)"

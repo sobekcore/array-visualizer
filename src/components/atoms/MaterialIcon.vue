@@ -18,9 +18,11 @@ export default {
   },
   methods: {
     showIconsAfterLoad() {
-      let icon = this.$refs.icon;
-      icon.className += " hide-icon";
-      window.addEventListener("load", this.makeIconsVisible, { once: true });
+      if (document.readyState !== "complete") {
+        let icon = this.$refs.icon;
+        icon.className += " hide-icon";
+        window.addEventListener("load", this.makeIconsVisible, { once: true });
+      }
     },
     makeIconsVisible() {
       let icon = this.$refs.icon;

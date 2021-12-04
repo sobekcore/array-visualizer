@@ -127,8 +127,8 @@ export default {
     gap: 14px;
 
     .array-title {
+      @include typography-title(18px);
       color: $font-light-color;
-      font-style: italic;
       margin: 0;
     }
 

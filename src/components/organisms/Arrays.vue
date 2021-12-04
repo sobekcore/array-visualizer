@@ -1,6 +1,21 @@
 <template>
+  <Modal
+    v-if="informationModal"
+    class="information-modal"
+    title="Array Visualizer"
+    :content="informationConfig"
+    :buttons="[]"
+    :closeButton="true"
+    @result="closeApplicationInfo($event)"
+  />
   <section class="arrays">
     <div class="arrays-header">
+      <button
+        class="header-button application-info interact"
+        @click="openApplicationInfo()"
+      >
+        <MaterialIcon class="header-icon" name="info" />
+      </button>
       <button
         class="header-button add-new-array interact"
         @click="addNewArray()"
@@ -39,6 +54,7 @@
 <script>
 import Array from "@/components/molecules/Array";
 import MaterialIcon from "@/components/atoms/MaterialIcon";
+import Modal from "@/components/molecules/Modal";
 import operations from "@/assets/operations.js";
 import configs from "@/assets/configs.js";
 import debounce from "lodash.debounce";
@@ -49,6 +65,7 @@ export default {
   components: {
     Array,
     MaterialIcon,
+    Modal,
   },
   props: {
     load: Object,
@@ -57,6 +74,8 @@ export default {
     return {
       arrays: 0,
       width: window.innerWidth,
+      informationConfig: configs.applicationInformation(),
+      informationModal: false,
       resize: false,
     };
   },
@@ -134,6 +153,14 @@ export default {
         };
       });
     },
+    openApplicationInfo() {
+      this.informationModal = true;
+    },
+    closeApplicationInfo(event) {
+      if (!event) {
+        this.informationModal = false;
+      }
+    },
   },
   watch: {
     load() {
@@ -156,6 +183,11 @@ export default {
     @media (max-width: $SMALL_SIZE_RESPONSIVE) {
       position: fixed;
       height: inherit;
+
+      .header-button {
+        font-size: 0;
+        gap: 0;
+      }
     }
 
     .import-arrays-file {

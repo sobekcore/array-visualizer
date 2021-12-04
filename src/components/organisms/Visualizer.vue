@@ -1,4 +1,13 @@
 <template>
+  <Modal
+    v-if="exportModal"
+    class="export-modal"
+    title="Export file type"
+    :buttons="configVisualizer"
+    :bigButtons="true"
+    :closeButton="true"
+    @result="exportArrays($event)"
+  />
   <section class="visualizer">
     <div class="visualizer-header">
       <button
@@ -20,16 +29,6 @@
       >
         <MaterialIcon class="header-icon" name="download" /> Export
       </button>
-      <Modal
-        v-if="exportModal"
-        class="export-modal"
-        title="Export file type"
-        :buttons="configVisualizer"
-        :bigButtons="true"
-        :closeButton="true"
-        @result="exportArrays($event)"
-      >
-      </Modal>
     </div>
     <template v-if="arrayResults.length > 0">
       <Array :visual="true" :load="arrayResults">Visualized Array</Array>
@@ -167,8 +166,7 @@ export default {
       this.operation = event;
     },
     openExportModal() {
-      let anyModal = document.querySelector(".modal-box");
-      if (!anyModal && this.arrayResults.length > 0) {
+      if (this.arrayResults.length > 0) {
         this.exportModal = true;
       }
     },
@@ -219,6 +217,11 @@ export default {
       position: fixed;
       height: inherit;
       bottom: 0;
+
+      .header-button {
+        font-size: 0;
+        gap: 0;
+      }
     }
   }
 
