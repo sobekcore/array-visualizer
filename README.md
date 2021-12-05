@@ -10,5 +10,5 @@ Currently available operations:
 * Sort
 * Unique Sort
 
-Visit the site at <https://array-visualizer.vercel.app>. <br />
+Visit the site at <https://array-visualizer.netlify.app>. <br />
 Have fun using! Feedback highly appreciated.
