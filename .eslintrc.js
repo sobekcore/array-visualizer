@@ -1,7 +1,7 @@
 module.exports = {
   root: true,
   env: {
-    node: true,
+    node: true
   },
   extends: [
     "plugin:vue/vue3-essential",
@@ -10,7 +10,14 @@ module.exports = {
   ],
   parserOptions: {
     ecmaVersion: 2020,
+    parser: "babel-eslint",
   },
+  overrides: [
+    {
+      files: ["**/tests/unit/**/*.test.js"],
+      env: { jest: true },
+    },
+  ],
   ignorePatterns: [
     "configs.js",
     "utility.js",
