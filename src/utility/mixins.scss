@@ -151,13 +151,13 @@
   }
 
   .modal-content {
-    margin: 0 0 $modal-margin / 4;
+    margin: 0 0 calc($modal-margin / 4);
     font-size: 14px;
   }
 
   .modal-buttons {
     display: inline-flex;
-    column-gap: $modal-margin / 2;
+    column-gap: calc($modal-margin / 2);
     margin-left: auto;
 
     .modal-big-button,
