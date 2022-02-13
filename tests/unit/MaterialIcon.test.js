@@ -15,15 +15,12 @@ describe("MaterialIcon.vue", () => {
     const icon = component.default.find(".icon");
     const iconElement = icon.wrapperElement;
 
-    let hasHideIcon = iconElement.className.includes("hide-icon");
-    expect(hasHideIcon).toBeTruthy();
-
     let loadEvent = new Event("load");
     window.dispatchEvent(loadEvent);
 
     await component.default.vm.$nextTick();
 
-    hasHideIcon = iconElement.className.includes("hide-icon");
+    let hasHideIcon = iconElement.className.includes("hide-icon");
     expect(hasHideIcon).toBeFalsy();
   });
 });
