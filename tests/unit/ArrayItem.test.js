@@ -40,8 +40,8 @@ describe("ArrayItem.vue", () => {
     component.default.vm.returnItemValue(arrayItemValue, true);
 
     const emitted = component.default.emitted();
-    let [emittedArray] = emitted.arrayItemValue;
-    let [emittedValue] = emittedArray;
+    const [emittedArray] = emitted.arrayItemValue;
+    const [emittedValue] = emittedArray;
 
     expect(emittedValue).toBe(arrayItemValue);
   });

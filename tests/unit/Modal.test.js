@@ -71,8 +71,8 @@ describe("Modal.vue", () => {
     modalButtonElement.dispatchEvent(clickEvent);
 
     const emitted = component.default.emitted();
-    let [emittedArray] = emitted.result;
-    let [emittedValue] = emittedArray;
+    const [emittedArray] = emitted.result;
+    const [emittedValue] = emittedArray;
 
     expect(emittedValue).toBeDefined();
   });

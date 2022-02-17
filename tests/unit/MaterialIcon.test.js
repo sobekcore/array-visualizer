@@ -20,7 +20,7 @@ describe("MaterialIcon.vue", () => {
 
     await component.default.vm.$nextTick();
 
-    let hasHideIcon = iconElement.className.includes("hide-icon");
+    const hasHideIcon = iconElement.className.includes("hide-icon");
     expect(hasHideIcon).toBeFalsy();
   });
 });

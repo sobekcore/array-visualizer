@@ -57,8 +57,8 @@ describe("Dropdown.vue", () => {
 
     await component.default.vm.$nextTick();
 
-    let list = component.default.find(".dropdown-list");
-    let listElement = list.wrapperElement;
+    const list = component.default.find(".dropdown-list");
+    const listElement = list.wrapperElement;
 
     expect(listElement).toBeDefined();
     component.default.vm.active = false;

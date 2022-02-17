@@ -1,4 +1,5 @@
 import { shallowMount } from "@vue/test-utils";
+import { generateArray } from "./mocks/Arrays.mock";
 import Array from "@/components/molecules/Array.vue";
 
 describe("Array.vue", () => {
@@ -24,6 +25,15 @@ describe("Array.vue", () => {
         visual: true,
       },
     }),
+
+    loaded: shallowMount(Array, {
+      props: {
+        id: DEFAULT_ARRAY_ID,
+        title: "Array",
+        visual: true,
+        load: generateArray(2),
+      },
+    }),
   };
 
   test("array should have id class if not in visual mode", () => {
@@ -31,7 +41,7 @@ describe("Array.vue", () => {
     const arrayElement = array.wrapperElement;
     const id = component.default.vm.id;
 
-    let hasArrayId = arrayElement.className.includes(`array-${id}`);
+    const hasArrayId = arrayElement.className.includes(`array-${id}`);
     expect(hasArrayId).toBeTruthy();
   });
 
@@ -64,11 +74,16 @@ describe("Array.vue", () => {
     );
 
     const emitted = component.default.emitted();
-    let [emittedArray] = emitted.arrayValues;
-    let [emittedObject] = emittedArray;
+    const [emittedArray] = emitted.arrayValues;
+    const [emittedObject] = emittedArray;
 
     expect(emittedObject.array).toBe(DEFAULT_ARRAY_ID);
     expect(emittedObject.item).toBe(arrayItemId);
     expect(emittedObject.value).toBe(arrayItemValue);
+  });
+
+  test("array should properly initialize with load values", () => {
+    const load = component.loaded.vm.load;
+    expect(component.loaded.vm.populated).toBe(load.length);
   });
 });
