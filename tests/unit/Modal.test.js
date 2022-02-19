@@ -63,11 +63,11 @@ describe("Modal.vue", () => {
     expect(modalButtonIconElement).toBeTruthy();
   });
 
-  test("modal should properly emit its value", () => {
+  test("modal should properly emit its values", () => {
     const modalButton = component.default.find(".modal-button");
     const modalButtonElement = modalButton.wrapperElement;
 
-    let clickEvent = new Event("click");
+    const clickEvent = new Event("click");
     modalButtonElement.dispatchEvent(clickEvent);
 
     const emitted = component.default.emitted();

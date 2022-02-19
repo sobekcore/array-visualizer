@@ -37,23 +37,14 @@ describe("Dropdown.vue", () => {
     component.default.vm.active = false;
   });
 
-  test("dropdown should be active after click", () => {
-    const dropdown = component.default.find(".dropdown");
-    const dropdownElement = dropdown.wrapperElement;
-
-    let clickEvent = new Event("click");
-    dropdownElement.dispatchEvent(clickEvent);
-
-    expect(component.default.vm.active).toBeTruthy();
-    component.default.vm.active = false;
-  });
-
   test("dropdown should appear after click", async () => {
     const dropdown = component.default.find(".dropdown");
     const dropdownElement = dropdown.wrapperElement;
 
-    let clickEvent = new Event("click");
+    const clickEvent = new Event("click");
     dropdownElement.dispatchEvent(clickEvent);
+
+    expect(component.default.vm.active).toBeTruthy();
 
     await component.default.vm.$nextTick();
 
@@ -68,8 +59,10 @@ describe("Dropdown.vue", () => {
     const dropdown = component.default.find(".dropdown");
     const dropdownElement = dropdown.wrapperElement;
 
-    let clickEvent = new Event("click");
+    const clickEvent = new Event("click");
     dropdownElement.dispatchEvent(clickEvent);
+
+    expect(component.default.vm.active).toBeTruthy();
 
     await component.default.vm.$nextTick();
 
@@ -77,11 +70,36 @@ describe("Dropdown.vue", () => {
     let listElement = list.wrapperElement;
 
     expect(listElement).toBeDefined();
+
     dropdownElement.dispatchEvent(clickEvent);
 
     await component.default.vm.$nextTick();
 
     list = component.default.find(".dropdown-list");
+
+    expect(component.default.vm.active).toBeFalsy();
     expect(Object.keys(list).length).toBe(0);
+  });
+
+  test("dropdown should emit clicked values", async () => {
+    component.default.vm.active = true;
+
+    await component.default.vm.$nextTick();
+
+    const list = component.default.find(".dropdown-item");
+    const listElement = list.wrapperElement;
+
+    expect(listElement).toBeDefined();
+
+    const elementValue = listElement.getAttribute("data-value");
+
+    const event = { target: listElement };
+    component.default.vm.setDropdownValues(event);
+
+    const emitted = component.default.emitted();
+    const [emittedArray] = emitted.value;
+    const [emittedValue] = emittedArray;
+
+    expect(emittedValue).toBe(elementValue);
   });
 });

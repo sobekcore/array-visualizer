@@ -4,6 +4,7 @@ import Array from "@/components/molecules/Array.vue";
 
 describe("Array.vue", () => {
   const DEFAULT_ARRAY_ID = 1;
+  const DEFAULT_ARRAY_TITLE = "Array";
 
   const resizeEvent = new Event("resize");
   global.innerWidth = 1920;
@@ -13,7 +14,7 @@ describe("Array.vue", () => {
     default: shallowMount(Array, {
       props: {
         id: DEFAULT_ARRAY_ID,
-        title: "Array",
+        title: DEFAULT_ARRAY_TITLE,
         visual: false,
       },
     }),
@@ -21,7 +22,7 @@ describe("Array.vue", () => {
     visual: shallowMount(Array, {
       props: {
         id: DEFAULT_ARRAY_ID,
-        title: "Array",
+        title: DEFAULT_ARRAY_TITLE,
         visual: true,
       },
     }),
@@ -29,7 +30,7 @@ describe("Array.vue", () => {
     loaded: shallowMount(Array, {
       props: {
         id: DEFAULT_ARRAY_ID,
-        title: "Array",
+        title: DEFAULT_ARRAY_TITLE,
         visual: true,
         load: generateArray(2),
       },
@@ -42,6 +43,7 @@ describe("Array.vue", () => {
     const id = component.default.vm.id;
 
     const hasArrayId = arrayElement.className.includes(`array-${id}`);
+
     expect(hasArrayId).toBeTruthy();
   });
 
@@ -56,7 +58,7 @@ describe("Array.vue", () => {
 
     expect(component.default.vm.items).toBe(0);
 
-    let clickEvent = new Event("click");
+    const clickEvent = new Event("click");
     buttonElement.dispatchEvent(clickEvent);
 
     expect(component.default.vm.items).toBe(1);

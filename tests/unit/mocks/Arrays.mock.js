@@ -11,4 +11,18 @@ const generateArray = (numberOfItems = 1) => {
   return array;
 };
 
-export { generateArray };
+const generateCompareArrays = (numberOfArrays = 1, numberOfItems = 1) => {
+  const arrays = {};
+
+  for (let i = 1; i <= numberOfArrays; i++) {
+    arrays[i] = [];
+
+    for (let j = 1; j <= numberOfItems; j++) {
+      arrays[i].push(String(j));
+    }
+  }
+
+  return arrays;
+};
+
+export { generateArray, generateCompareArrays };

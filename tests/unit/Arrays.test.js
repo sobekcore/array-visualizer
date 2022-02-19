@@ -20,30 +20,30 @@ describe("Arrays.vue", () => {
     }),
   };
 
-  test("button should add new arrays", () => {
-    const button = component.default.find(".add-new-array");
-    const buttonElement = button.wrapperElement;
-
-    expect(component.default.vm.arrays).toBe(0);
-
-    let clickEvent = new Event("click");
-    buttonElement.dispatchEvent(clickEvent);
-
-    expect(component.default.vm.arrays).toBe(1);
-    component.default.vm.arrays = 0;
-  });
-
   test("button should open informational modal", () => {
     const button = component.default.find(".application-info");
     const buttonElement = button.wrapperElement;
 
     expect(component.default.vm.informationModal).toBeFalsy();
 
-    let clickEvent = new Event("click");
+    const clickEvent = new Event("click");
     buttonElement.dispatchEvent(clickEvent);
 
     expect(component.default.vm.informationModal).toBeTruthy();
     component.default.vm.informationModal = false;
+  });
+
+  test("button should add new arrays", () => {
+    const button = component.default.find(".add-new-array");
+    const buttonElement = button.wrapperElement;
+
+    expect(component.default.vm.arrays).toBe(0);
+
+    const clickEvent = new Event("click");
+    buttonElement.dispatchEvent(clickEvent);
+
+    expect(component.default.vm.arrays).toBe(1);
+    component.default.vm.arrays = 0;
   });
 
   test("button should remove all the arrays", () => {
@@ -55,7 +55,7 @@ describe("Arrays.vue", () => {
 
     expect(component.default.vm.arrays).toBe(0);
 
-    let clickEvent = new Event("click");
+    const clickEvent = new Event("click");
     addNewArrayElement.dispatchEvent(clickEvent);
 
     expect(component.default.vm.arrays).toBe(1);
@@ -73,7 +73,7 @@ describe("Arrays.vue", () => {
 
     expect(component.default.vm.arrays).toBe(0);
 
-    let clickEvent = new Event("click");
+    const clickEvent = new Event("click");
     buttonElement.dispatchEvent(clickEvent);
 
     expect(component.default.vm.arrays).toBe(1);
@@ -93,7 +93,7 @@ describe("Arrays.vue", () => {
 
     expect(component.default.vm.arrays).toBe(0);
 
-    let clickEvent = new Event("click");
+    const clickEvent = new Event("click");
     buttonElement.dispatchEvent(clickEvent);
 
     expect(component.default.vm.arrays).toBe(1);
