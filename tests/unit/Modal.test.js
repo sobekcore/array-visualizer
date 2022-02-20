@@ -36,30 +36,35 @@ describe("Modal.vue", () => {
   test("modal should have close button if in closable mode", () => {
     const closeButton = component.closable.find(".modal-close");
     const closeButtonElement = closeButton.wrapperElement;
+
     expect(closeButtonElement).toBeTruthy();
   });
 
   test("modal should display title if passed", () => {
     const modalContent = component.default.find(".modal-title");
     const modalContentElement = modalContent.wrapperElement;
+
     expect(modalContentElement).toBeTruthy();
   });
 
   test("modal should display content if passed", () => {
     const modalContent = component.default.find(".modal-content");
     const modalContentElement = modalContent.wrapperElement;
+
     expect(modalContentElement).toBeTruthy();
   });
 
   test("buttons should be displayed if definiton is passed", () => {
     const modalButtons = component.default.find(".modal-buttons");
     const modalButtonsElement = modalButtons.wrapperElement;
+
     expect(modalButtonsElement).toBeTruthy();
   });
 
   test("big buttons should be enabled if in big button mode", () => {
     const modalButtonIcon = component.bigButtons.find(".modal-button-icon");
     const modalButtonIconElement = modalButtonIcon.wrapperElement;
+
     expect(modalButtonIconElement).toBeTruthy();
   });
 

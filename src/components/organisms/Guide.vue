@@ -52,18 +52,14 @@ export default {
       this.$emit("closed", true);
     },
     stopEventPropagation(func, args) {
-      setTimeout(() => {
-        this[func](args);
-      });
+      setTimeout(() => this[func](args));
     },
     clickOnElement(element) {
       element.click();
     },
     highlightElements(className) {
       let elements = document.querySelectorAll(className);
-      elements.forEach((element) => {
-        element.className += " highlight";
-      });
+      elements.forEach((element) => (element.className += " highlight"));
 
       if (elements.length === 1) {
         let background = document.querySelector(".modal-background");
@@ -110,7 +106,7 @@ export default {
 
       window.removeEventListener("resize", this.createModalPolygon);
       let background = document.querySelector(".modal-background");
-      background.style.clipPath = "none";
+      if (background) background.style.clipPath = "none";
     },
     progressOnClickaway() {
       document.addEventListener("click", this.checkIfClickOnModal, {
@@ -146,16 +142,15 @@ export default {
     prepareGuideLastStep() {
       let buttonsSelector = ".modal-button:not(.main-button)";
       let modalButtons = document.querySelectorAll(buttonsSelector);
-      modalButtons.forEach((button) => {
-        button.remove();
-      });
+      modalButtons.forEach((button) => button.remove());
 
       let mainModalButton = document.querySelector(".modal-button.main-button");
       mainModalButton.innerText = "Finish";
     },
   },
   mounted() {
-    this.content = this.steps[0].content;
+    const { 0: firstStep } = this.steps;
+    this.content = firstStep.content;
   },
 };
 </script>

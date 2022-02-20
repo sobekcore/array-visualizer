@@ -49,6 +49,7 @@ describe("Array.vue", () => {
 
   test("button should be hidden in visual mode", () => {
     const button = component.visual.find(".array-button");
+
     expect(Object.keys(button).length).toBe(0);
   });
 
@@ -86,6 +87,7 @@ describe("Array.vue", () => {
 
   test("array should properly initialize with load values", () => {
     const load = component.loaded.vm.load;
+
     expect(component.loaded.vm.populated).toBe(load.length);
   });
 });

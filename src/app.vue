@@ -92,7 +92,7 @@ export default {
       this.$utility.localStorageSave(this.application, this.arrays);
     },
     loadArrays() {
-      let loaded = this.$utility.localStorageGet(this.application);
+      const loaded = this.$utility.localStorageGet(this.application);
       this.load = this.$utility.oneOfTwo(loaded, this.load);
     },
   },

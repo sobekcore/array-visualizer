@@ -133,9 +133,7 @@ export default {
       setTimeout(() => {
         this.arrayResults = [];
         let arrayResult = operations.calculate(compareArrays, this.operation);
-        this.$nextTick(() => {
-          this.arrayResults = arrayResult;
-        });
+        this.$nextTick(() => (this.arrayResults = arrayResult));
       }, arrayTimeout);
 
       // Scroll to visualized array after calculations on mobile

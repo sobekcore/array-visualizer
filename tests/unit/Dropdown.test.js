@@ -16,6 +16,23 @@ describe("Dropdown.vue", () => {
     }),
   };
 
+  const clickOnDropdown = async (component) => {
+    const dropdown = component.find(".dropdown");
+    const dropdownElement = dropdown.wrapperElement;
+
+    const clickEvent = new Event("click");
+    dropdownElement.dispatchEvent(clickEvent);
+
+    expect(component.vm.active).toBeTruthy();
+
+    await component.vm.$nextTick();
+
+    const list = component.find(".dropdown-list");
+    const listElement = list.wrapperElement;
+
+    expect(listElement).toBeDefined();
+  };
+
   test("dropdown values should match config", async () => {
     const values = configOperations.map((option) => option.value);
     component.default.vm.active = true;
@@ -38,44 +55,22 @@ describe("Dropdown.vue", () => {
   });
 
   test("dropdown should appear after click", async () => {
-    const dropdown = component.default.find(".dropdown");
-    const dropdownElement = dropdown.wrapperElement;
-
-    const clickEvent = new Event("click");
-    dropdownElement.dispatchEvent(clickEvent);
-
-    expect(component.default.vm.active).toBeTruthy();
-
-    await component.default.vm.$nextTick();
-
-    const list = component.default.find(".dropdown-list");
-    const listElement = list.wrapperElement;
-
-    expect(listElement).toBeDefined();
+    await clickOnDropdown(component.default);
     component.default.vm.active = false;
   });
 
   test("dropdown should hide after click if shown", async () => {
+    await clickOnDropdown(component.default);
+
     const dropdown = component.default.find(".dropdown");
     const dropdownElement = dropdown.wrapperElement;
 
     const clickEvent = new Event("click");
     dropdownElement.dispatchEvent(clickEvent);
 
-    expect(component.default.vm.active).toBeTruthy();
-
     await component.default.vm.$nextTick();
 
-    let list = component.default.find(".dropdown-list");
-    let listElement = list.wrapperElement;
-
-    expect(listElement).toBeDefined();
-
-    dropdownElement.dispatchEvent(clickEvent);
-
-    await component.default.vm.$nextTick();
-
-    list = component.default.find(".dropdown-list");
+    const list = component.default.find(".dropdown-list");
 
     expect(component.default.vm.active).toBeFalsy();
     expect(Object.keys(list).length).toBe(0);
