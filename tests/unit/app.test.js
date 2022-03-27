@@ -2,10 +2,10 @@ import { shallowMount } from "@vue/test-utils";
 import { generateArray, generateArrayToSave } from "./mocks/Arrays.mock";
 import app from "@/app.vue";
 
-import configs from "@/assets/configs";
+import configs from "@/services/configs";
 
 describe("app.vue", () => {
-  const application = configs.application();
+  const application = configs.application;
 
   const component = {
     default: shallowMount(app),

@@ -1,7 +1,7 @@
 import { shallowMount } from "@vue/test-utils";
 import Guide from "@/components/organisms/Guide.vue";
 
-import configs from "@/assets/configs";
+import configs from "@/services/configs";
 
 describe("Guide.vue", () => {
   const component = {

@@ -55,8 +55,8 @@
 import Array from "@/components/molecules/Array";
 import MaterialIcon from "@/components/atoms/MaterialIcon";
 import Modal from "@/components/molecules/Modal";
-import operations from "@/assets/operations.js";
-import configs from "@/assets/configs.js";
+import operations from "@/services/operations.js";
+import configs from "@/services/configs.js";
 import debounce from "lodash.debounce";
 
 export default {
@@ -67,34 +67,36 @@ export default {
     MaterialIcon,
     Modal,
   },
-  props: {
-    load: Object,
+  computed: {
+    load() {
+      return this.$store.getters.getLoaded;
+    },
   },
   data() {
     return {
       arrays: 0,
       width: window.innerWidth,
-      informationConfig: configs.applicationInformation(),
+      informationConfig: configs.information,
       informationModal: false,
       resize: false,
     };
   },
   methods: {
+    checkArrays(event) {
+      this.$store.dispatch("prepareArraysAction", event);
+    },
     addNewArray() {
       this.arrays++;
       this.checkArrays({ array: this.arrays });
     },
-    checkArrays(event) {
-      this.$emit("arrays", event);
-    },
     resizeArrays() {
-      let screen = window.innerWidth;
-      let size = this.$enums.MEDIUM_SIZE_RESPONSIVE;
-      this.resize = screen > size && this.width <= size ? true : false;
+      const screen = window.innerWidth;
+      const size = this.$enums.MEDIUM_SIZE_RESPONSIVE;
+      this.resize = screen > size && this.width <= size;
       this.width = screen;
     },
     removeArrays() {
-      let message = "Do you want to remove all the arrays?";
+      const message = "Do you want to remove all the arrays?";
       if (this.arrays > 0 && confirm(message)) {
         this.arrays = 0;
         this.checkArrays(null);
@@ -102,13 +104,13 @@ export default {
     },
     loadArrays(arrays) {
       this.arrays = 0;
-      let length = Object.keys(arrays).length;
+      const length = Object.keys(arrays).length;
       for (let i = 1; i <= length; i++) {
         this.addNewArray();
       }
     },
     importArrays() {
-      let importArrays = document.querySelector(".import-arrays-file");
+      const importArrays = document.querySelector(".import-arrays-file");
       importArrays.click();
 
       importArrays.addEventListener("change", this.loadFile, {
@@ -116,7 +118,7 @@ export default {
       });
     },
     loadFile(event) {
-      let promise = this.readFromFile(event);
+      const promise = this.readFromFile(event);
 
       promise.then((result) => {
         this.checkArrays({
@@ -131,9 +133,9 @@ export default {
     },
     readFromFile(event) {
       return new Promise((resolve, reject) => {
-        let file = event.target.files[0];
-        let fileFormats = configs.acceptedFileFormats();
-        let type = file.type.split("/")[1];
+        const file = event.target.files[0];
+        const fileFormats = configs.acceptedFileFormats;
+        const type = file.type.split("/")[1];
 
         if (!fileFormats.includes(type)) {
           reject("Unsupported file format.");
@@ -143,7 +145,7 @@ export default {
         reader.readAsText(file);
 
         reader.onload = () => {
-          let preparedResult = operations.process(reader.result, type);
+          const preparedResult = operations.process(reader.result, type);
           resolve(preparedResult);
         };
 
@@ -162,12 +164,8 @@ export default {
       }
     },
   },
-  watch: {
-    load() {
-      this.loadArrays(this.load);
-    },
-  },
   mounted() {
+    this.loadArrays(this.load);
     window.addEventListener("resize", debounce(this.resizeArrays, 100));
   },
 };

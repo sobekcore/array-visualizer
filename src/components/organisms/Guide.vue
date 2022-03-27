@@ -10,7 +10,7 @@
 
 <script>
 import Modal from "@/components/molecules/Modal";
-import configs from "@/assets/configs";
+import configs from "@/services/configs.js";
 
 export default {
   name: "Guide",
@@ -20,15 +20,15 @@ export default {
   },
   data() {
     return {
-      configGuide: configs.guide(),
-      steps: configs.steps(),
+      configGuide: configs.guide,
+      steps: configs.steps,
       content: "",
       step: 0,
     };
   },
   methods: {
     progressGuide(event) {
-      let config = this.steps[++this.step];
+      const config = this.steps[++this.step];
 
       if (!event || !config) {
         this.closeGuide();
@@ -58,28 +58,28 @@ export default {
       element.click();
     },
     highlightElements(className) {
-      let elements = document.querySelectorAll(className);
+      const elements = document.querySelectorAll(className);
       elements.forEach((element) => (element.className += " highlight"));
 
       if (elements.length === 1) {
-        let background = document.querySelector(".modal-background");
-        let targetElement = elements[0];
+        const background = document.querySelector(".modal-background");
+        const targetElement = elements[0];
 
         window.addEventListener("resize", this.createModalPolygon);
         window.params = { background: background, target: targetElement };
 
-        let event = new Event("resize");
+        const event = new Event("resize");
         window.dispatchEvent(event);
       }
     },
     createModalPolygon(event) {
-      let parent = event.target;
-      let background = parent.params.background;
-      let target = parent.params.target;
+      const parent = event.target;
+      const background = parent.params.background;
+      const target = parent.params.target;
 
-      let { left, top } = target.getBoundingClientRect();
-      let bottom = top + target.offsetHeight;
-      let right = left + target.offsetWidth;
+      const { left, top } = target.getBoundingClientRect();
+      const bottom = top + target.offsetHeight;
+      const right = left + target.offsetWidth;
 
       let paths = [
         "0 0", // OUTER left-top
@@ -98,14 +98,14 @@ export default {
       background.style.clipPath = `polygon(${paths.join(", ")})`;
     },
     unhighlightElements() {
-      let highlighted = document.querySelectorAll(".highlight");
+      const highlighted = document.querySelectorAll(".highlight");
       highlighted.forEach((element) => {
-        let className = element.className;
+        const className = element.className;
         element.className = this.$utility.removeAfterLastChar(className, " ");
       });
 
       window.removeEventListener("resize", this.createModalPolygon);
-      let background = document.querySelector(".modal-background");
+      const background = document.querySelector(".modal-background");
       if (background) background.style.clipPath = "none";
     },
     progressOnClickaway() {
@@ -121,30 +121,29 @@ export default {
 
     // Helper methods for specific steps
     addArrayIfNotExists() {
-      let arrays = document.querySelector(".array");
-      if (!arrays) {
+      if (!document.querySelector(".array")) {
         let addNewArray = document.querySelector(".add-new-array");
         addNewArray.click();
       }
     },
     addArrayItemIfNotExists() {
-      let items = document.querySelector(".array-item");
-      if (!items) {
-        let addArrayItem = document.querySelector(".add-array-item");
+      if (!document.querySelector(".array-item")) {
+        const addArrayItem = document.querySelector(".add-array-item");
         addArrayItem.click();
       }
     },
     openOperationsDropdown() {
-      let dropdown = document.querySelector(".change-operation-type");
+      const dropdown = document.querySelector(".change-operation-type");
       this.stopEventPropagation("clickOnElement", dropdown);
       this.stopEventPropagation("progressOnClickaway");
     },
     prepareGuideLastStep() {
-      let buttonsSelector = ".modal-button:not(.main-button)";
-      let modalButtons = document.querySelectorAll(buttonsSelector);
+      const buttonsSelector = ".modal-button:not(.main-button)";
+      const modalButtons = document.querySelectorAll(buttonsSelector);
       modalButtons.forEach((button) => button.remove());
 
-      let mainModalButton = document.querySelector(".modal-button.main-button");
+      const mainModalButtonSelector = ".modal-button.main-button";
+      const mainModalButton = document.querySelector(mainModalButtonSelector);
       mainModalButton.innerText = "Finish";
     },
   },

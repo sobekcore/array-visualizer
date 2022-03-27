@@ -1,6 +1,6 @@
 import { config } from "@vue/test-utils";
-import utility from "@/utility/utility";
-import enums from "@/utility/enums";
+import utility from "@/services/utility";
+import enums from "@/services/enums";
 
 config.global.mocks = {
   $utility: utility,

@@ -13,6 +13,9 @@ export default {
   JSON_FILE_FORMAT: "json",
   CSV_FILE_FORMAT: "csv",
 
+  STORAGE_ARRAYS: "array-visualizer-arrays",
+  COOKIE_GUIDE: "array-visualizer-guide",
+
   GRID_COLUMNS_AMOUNT: 3,
   ITEM_TRANSITION_TIME: 0.25,
   ARRAY_GRID_GAP: 14,

@@ -3,14 +3,14 @@ import { sleep } from "./mocks/Time.mock";
 import { generateArray, generateCompareArrays } from "./mocks/Arrays.mock";
 import Visualizer from "@/components/organisms/Visualizer.vue";
 
-import configs from "@/assets/configs";
-import operations from "@/assets/operations";
+import configs from "@/services/configs";
+import operations from "@/services/operations";
 
 describe("Visualizer.vue", () => {
   const COMPARE_ARRAYS_LENGTH = 2;
   const COMPARE_ARRAYS_IITEMS = 2;
 
-  const configOperations = configs.operations();
+  const configOperations = configs.operations;
 
   const component = {
     loaded: shallowMount(Visualizer, {

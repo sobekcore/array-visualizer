@@ -1,9 +1,9 @@
 <template>
   <Guide v-if="guide" @closed="loadGuide($event)" />
   <main class="application" role="application">
-    <Arrays :load="load" @arrays="prepareArrays($event)" />
+    <Arrays />
     <div class="separator"></div>
-    <Visualizer :arrays="arrays" />
+    <Visualizer />
     <div class="background"></div>
   </main>
 </template>
@@ -12,7 +12,6 @@
 import Arrays from "@/components/organisms/Arrays";
 import Visualizer from "@/components/organisms/Visualizer";
 import Guide from "@/components/organisms/Guide";
-import configs from "@/assets/configs.js";
 
 export default {
   name: "app",
@@ -21,84 +20,21 @@ export default {
     Visualizer,
     Guide,
   },
-  data() {
-    return {
-      application: configs.application(),
-      guide: false,
-      arrays: {},
-      load: {},
-    };
+  computed: {
+    arrays() {
+      return this.$store.getters.getArrays;
+    },
+    guide() {
+      return this.$store.getters.getGuide;
+    },
   },
   methods: {
     loadGuide(closed) {
-      let cookieName = `${this.application}-guide`;
-      let guide = this.$utility.cookieGet(cookieName);
-      let showGuide = false;
-
-      if (closed) {
-        this.$utility.cookieSave(cookieName, false, 30);
-      } else if (!guide) {
-        showGuide = true;
-      }
-
-      this.guide = showGuide;
-    },
-    prepareArrays(event) {
-      let alreadyComputed = false;
-
-      if (!event || event.import) {
-        this.load = {};
-        this.arrays = {};
-        alreadyComputed = true;
-      }
-
-      if (event && event.import) {
-        this.$nextTick(() => {
-          this.load = event.arrays;
-        });
-      }
-
-      if (!alreadyComputed) {
-        let id = event.array;
-        if (!this.arrays[id]) {
-          this.arrays[id] = [];
-        }
-
-        if (event.item && event.value) {
-          let array = this.arrays[id];
-          let iterator = array.entries();
-          let alreadyCreated = false;
-
-          for (let [id, value] of iterator) {
-            if (value.item === event.item) {
-              array[id] = {
-                item: event.item,
-                value: event.value,
-              };
-              alreadyCreated = true;
-              break;
-            }
-          }
-
-          if (!alreadyCreated) {
-            array.push({
-              item: event.item,
-              value: event.value,
-            });
-          }
-        }
-      }
-
-      this.$utility.localStorageSave(this.application, this.arrays);
-    },
-    loadArrays() {
-      const loaded = this.$utility.localStorageGet(this.application);
-      this.load = this.$utility.oneOfTwo(loaded, this.load);
+      this.$store.dispatch("loadGuideAction", closed);
     },
   },
   mounted() {
     this.loadGuide();
-    this.loadArrays();
   },
 };
 </script>
