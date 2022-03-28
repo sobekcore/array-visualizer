@@ -7,14 +7,14 @@ export default {
     let arrays = store.getters.getArrays;
 
     if (!event || event.import) {
-      store.commit("setLoad", {});
+      store.commit("setLoaded", {});
       store.commit("setArrays", {});
       alreadyComputed = true;
     }
 
     if (event && event.import) {
       setTimeout(() => {
-        store.commit("setLoad", event.arrays);
+        store.commit("setLoaded", event.arrays);
       });
     }
 

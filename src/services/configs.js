@@ -1,7 +1,6 @@
 import enums from "@/services/enums";
 
 export default {
-  application: "array-visualizer",
   information: `
     Array Visualizer is a simple application to visualize operations on arrays.
     <br class="line-break" />

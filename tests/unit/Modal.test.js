@@ -4,7 +4,7 @@ import Modal from "@/components/molecules/Modal.vue";
 import configs from "@/services/configs";
 
 describe("Modal.vue", () => {
-  const configGuide = configs.guide();
+  const configGuide = configs.guide;
 
   const component = {
     default: shallowMount(Modal, {

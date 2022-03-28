@@ -18,8 +18,8 @@ describe("Guide.vue", () => {
   };
 
   test("component should have properly applied configs", () => {
-    const configGuide = configs.guide();
-    const steps = configs.steps();
+    const configGuide = configs.guide;
+    const steps = configs.steps;
     const { 0: firstStep } = steps;
 
     expect(component.default.vm.configGuide).toEqual(configGuide);

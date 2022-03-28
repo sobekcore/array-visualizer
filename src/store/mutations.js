@@ -11,6 +11,5 @@ export default {
   },
   setGuide: (state, guide) => {
     state.guide = guide;
-    utility.cookieSave(enums.COOKIE_GUIDE, guide, 30);
   },
 };

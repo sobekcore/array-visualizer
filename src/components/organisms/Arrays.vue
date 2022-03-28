@@ -61,20 +61,15 @@ import debounce from "lodash.debounce";
 
 export default {
   name: "Arrays",
-  emits: ["arrays"],
   components: {
     Array,
     MaterialIcon,
     Modal,
   },
-  computed: {
-    load() {
-      return this.$store.getters.getLoaded;
-    },
-  },
   data() {
     return {
       arrays: 0,
+      load: this.$store.getters.getLoaded,
       width: window.innerWidth,
       informationConfig: configs.information,
       informationModal: false,

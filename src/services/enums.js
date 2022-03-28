@@ -1,4 +1,6 @@
 export default {
+  APPLICATION_NAME: "array-visualizer",
+
   MEDIUM_SIZE_RESPONSIVE: 1199,
   SMALL_SIZE_RESPONSIVE: 699,
 

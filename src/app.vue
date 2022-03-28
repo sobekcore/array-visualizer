@@ -20,17 +20,16 @@ export default {
     Visualizer,
     Guide,
   },
-  computed: {
-    arrays() {
-      return this.$store.getters.getArrays;
-    },
-    guide() {
-      return this.$store.getters.getGuide;
-    },
+  data() {
+    return {
+      arrays: this.$store.getters.getArrays,
+      guide: this.$store.getters.getGuide,
+    };
   },
   methods: {
     loadGuide(closed) {
       this.$store.dispatch("loadGuideAction", closed);
+      this.guide = this.$store.getters.getGuide;
     },
   },
   mounted() {

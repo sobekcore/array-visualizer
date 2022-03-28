@@ -53,14 +53,10 @@ export default {
     MaterialIcon,
     Modal,
   },
-  computed: {
-    arrays() {
-      return this.$store.getters.getArrays;
-    },
-  },
   data() {
     return {
       arrayResults: [],
+      arrays: this.$store.getters.getArrays,
       operation: this.$enums.CONCAT_OPERATION,
       configOperations: configs.operations,
       configVisualizer: configs.visualizer,
@@ -180,13 +176,13 @@ export default {
 
         switch (exportFileType) {
           case this.$enums.JSON_FILE_FORMAT:
-            fileName = `${configs.application}-data.json`;
+            fileName = `${this.$enums.APPLICATION_NAME}-data.json`;
             fileBlob = new File([JSON.stringify(dataToExport)], fileName, {
               type: "application/json",
             });
             break;
           case this.$enums.CSV_FILE_FORMAT:
-            fileName = `${configs.application}-data.csv`;
+            fileName = `${this.$enums.APPLICATION_NAME}-data.csv`;
             fileBlob = new File([Papa.unparse([dataToExport])], fileName, {
               type: "text/csv",
             });
