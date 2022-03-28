@@ -1,4 +1,6 @@
 export default {
+  APPLICATION_NAME: "array-visualizer",
+
   MEDIUM_SIZE_RESPONSIVE: 1199,
   SMALL_SIZE_RESPONSIVE: 699,
 
@@ -12,6 +14,9 @@ export default {
 
   JSON_FILE_FORMAT: "json",
   CSV_FILE_FORMAT: "csv",
+
+  STORAGE_ARRAYS: "array-visualizer-arrays",
+  COOKIE_GUIDE: "array-visualizer-guide",
 
   GRID_COLUMNS_AMOUNT: 3,
   ITEM_TRANSITION_TIME: 0.25,

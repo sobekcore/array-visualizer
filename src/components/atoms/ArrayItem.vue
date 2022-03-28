@@ -32,7 +32,7 @@ export default {
   },
   methods: {
     generateItemClass(element) {
-      let type = this.visual ? "visual" : "array";
+      const type = this.visual ? "visual" : "array";
       let className;
 
       switch (element) {
