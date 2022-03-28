@@ -1,4 +1,4 @@
-import enums from "@/utility/enums";
+import enums from "@/services/enums";
 import Papa from "papaparse";
 
 const uniqueArrays = (array) => {
@@ -10,9 +10,9 @@ const sortArray = (array) => {
 };
 
 const arrayDifference = (compareArrays, array, id) => {
-  let others = compareArrays.slice(0);
+  const others = compareArrays.slice(0);
   others.splice(id, 1);
-  let unique = uniqueArrays(others);
+  const unique = uniqueArrays(others);
   return array.filter((value) => !unique.includes(value));
 };
 
@@ -26,8 +26,8 @@ const arrayDifference = (compareArrays, array, id) => {
 function calculate(compareArrays, operation) {
   compareArrays = Object.values(compareArrays);
 
-  let pointer = 0;
-  let compareAgainst = compareArrays[pointer];
+  const pointer = 0;
+  const compareAgainst = compareArrays[pointer];
   let arrayResult = [];
 
   switch (operation) {

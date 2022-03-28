@@ -1,23 +1,9 @@
 import { shallowMount } from "@vue/test-utils";
-import { generateArray } from "./mocks/Arrays.mock";
 import Arrays from "@/components/organisms/Arrays.vue";
 
 describe("Arrays.vue", () => {
   const component = {
-    default: shallowMount(Arrays, {
-      props: {
-        load: {},
-      },
-    }),
-
-    loaded: shallowMount(Arrays, {
-      props: {
-        load: {
-          1: generateArray(2),
-          2: generateArray(2),
-        },
-      },
-    }),
+    default: shallowMount(Arrays),
   };
 
   const clickAddNewArray = (component) => {
@@ -77,16 +63,6 @@ describe("Arrays.vue", () => {
     component.default.vm.arrays = 0;
   });
 
-  test("component should properly emit its values", () => {
-    clickAddNewArray(component.default);
-
-    const emitted = component.default.emitted();
-    const [emittedArray] = emitted.arrays;
-    const [emittedValue] = emittedArray;
-
-    expect(emittedValue.array).toBe(1);
-  });
-
   test("component should resize arrays", () => {
     component.default.vm.resizeArrays();
 
@@ -94,10 +70,10 @@ describe("Arrays.vue", () => {
   });
 
   test("arrays should properly initialize with load values", () => {
-    const load = component.loaded.vm.load;
+    const load = component.default.vm.load;
     const loadLength = Object.keys(load).length;
-    component.loaded.vm.loadArrays(load);
+    component.default.vm.loadArrays(load);
 
-    expect(component.loaded.vm.arrays).toBe(loadLength);
+    expect(component.default.vm.arrays).toBe(loadLength);
   });
 });

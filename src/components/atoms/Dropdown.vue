@@ -44,22 +44,22 @@ export default {
   },
   methods: {
     toggleDropdown(event) {
-      let dropdown = this.$refs.dropdown;
+      const dropdown = this.$refs.dropdown;
       if (!dropdown.disabled) {
         this.active = !this.active;
         this.setDropdownValues(event);
       }
     },
     setDropdownValues(event) {
-      let value = event.target.getAttribute("data-value");
-      let name = event.target.getAttribute("data-name");
+      const value = event.target.getAttribute("data-value");
+      const name = event.target.getAttribute("data-name");
       if (value && name) {
         this.text = name;
         this.$emit("value", value);
       }
     },
     watchClickaway() {
-      let dropdown = this.$refs.dropdown;
+      const dropdown = this.$refs.dropdown;
       document.addEventListener("click", (event) => {
         if (!dropdown.contains(event.target)) {
           this.active = false;

@@ -1,10 +1,10 @@
 import { shallowMount } from "@vue/test-utils";
 import Dropdown from "@/components/atoms/Dropdown.vue";
 
-import configs from "@/assets/configs";
+import configs from "@/services/configs";
 
 describe("Dropdown.vue", () => {
-  const configOperations = configs.operations();
+  const configOperations = configs.operations;
 
   const component = {
     default: shallowMount(Dropdown, {

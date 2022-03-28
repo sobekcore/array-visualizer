@@ -68,8 +68,8 @@ export default {
     },
     calculateOffset() {
       if (window.innerWidth > this.$enums.MEDIUM_SIZE_RESPONSIVE) {
-        let columns = this.$enums.GRID_COLUMNS_AMOUNT;
-        let arrays = document.querySelectorAll(".arrays-display .array");
+        const columns = this.$enums.GRID_COLUMNS_AMOUNT;
+        const arrays = document.querySelectorAll(".arrays-display .array");
         let following = columns * (Math.ceil(this.id / columns) - 1) + 1;
 
         // Skip first grid row (no point to calculate)
@@ -78,18 +78,18 @@ export default {
         }
 
         for (let id = following; id <= arrays.length; id++) {
-          let beforeId = id - columns;
-          let arrayBefore = document.querySelector(`.array-${beforeId}`);
-          let currentArray = document.querySelector(`.array-${id}`);
+          const beforeId = id - columns;
+          const arrayBefore = document.querySelector(`.array-${beforeId}`);
+          const currentArray = document.querySelector(`.array-${id}`);
 
           if (arrayBefore && currentArray) {
-            let { bottom: start } = arrayBefore.getBoundingClientRect();
-            let { top: end } = currentArray.getBoundingClientRect();
-            let arrayOffset = start - end + this.$enums.ARRAY_GRID_GAP;
+            const { bottom: start } = arrayBefore.getBoundingClientRect();
+            const { top: end } = currentArray.getBoundingClientRect();
+            const arrayOffset = start - end + this.$enums.ARRAY_GRID_GAP;
 
             if (arrayOffset !== 0) {
-              let arrayMargin = currentArray.style.marginTop;
-              let margin = Number(arrayMargin.slice(0, -2)) + arrayOffset;
+              const arrayMargin = currentArray.style.marginTop;
+              const margin = Number(arrayMargin.slice(0, -2)) + arrayOffset;
               currentArray.style.marginTop = `${margin}px`;
             }
           }

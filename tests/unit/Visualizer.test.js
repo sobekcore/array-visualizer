@@ -1,26 +1,20 @@
 import { shallowMount } from "@vue/test-utils";
 import { sleep } from "./mocks/Time.mock";
-import { generateArray, generateCompareArrays } from "./mocks/Arrays.mock";
+import { generateArray, generateArrayToSave, generateCompareArrays } from "./mocks/Arrays.mock";
 import Visualizer from "@/components/organisms/Visualizer.vue";
 
-import configs from "@/assets/configs";
-import operations from "@/assets/operations";
+import configs from "@/services/configs";
+import operations from "@/services/operations";
 
 describe("Visualizer.vue", () => {
   const COMPARE_ARRAYS_LENGTH = 2;
-  const COMPARE_ARRAYS_IITEMS = 2;
+  const COMPARE_ARRAYS_ITEMS = 2;
 
-  const configOperations = configs.operations();
+  const configOperations = configs.operations;
 
   const component = {
-    loaded: shallowMount(Visualizer, {
+    default: shallowMount(Visualizer, {
       attachTo: document.body,
-      props: {
-        arrays: {
-          1: generateArray(2),
-          2: generateArray(2),
-        },
-      },
     }),
   };
 
@@ -29,7 +23,7 @@ describe("Visualizer.vue", () => {
 
     const compareArrays = generateCompareArrays(
       COMPARE_ARRAYS_LENGTH,
-      COMPARE_ARRAYS_IITEMS
+      COMPARE_ARRAYS_ITEMS
     );
 
     component.vm.calculateArrays(compareArrays);
@@ -40,35 +34,35 @@ describe("Visualizer.vue", () => {
 
   for (let option of configOperations) {
     test(`calculate compared arrays - ${option.name}`, async () => {
-      expect(component.loaded.vm.arrayResults.length).toBe(0);
+      expect(component.default.vm.arrayResults.length).toBe(0);
 
-      component.loaded.vm.operation = option.value;
-      const compareArrays = fillArrayResults(component.loaded);
+      component.default.vm.operation = option.value;
+      const compareArrays = fillArrayResults(component.default);
 
       await sleep();
 
       const result = operations.calculate(compareArrays, option.value);
 
-      expect(component.loaded.vm.arrayResults).toEqual(result);
-      component.loaded.vm.arrayResults = [];
+      expect(component.default.vm.arrayResults).toEqual(result);
+      component.default.vm.arrayResults = [];
     });
   }
 
   test("button should open export modal", async () => {
-    const button = component.loaded.find(".export-arrays");
+    const button = component.default.find(".export-arrays");
     const buttonElement = button.wrapperElement;
 
-    expect(component.loaded.vm.exportModal).toBeFalsy();
+    expect(component.default.vm.exportModal).toBeFalsy();
 
-    fillArrayResults(component.loaded);
+    fillArrayResults(component.default);
 
     await sleep();
 
     const clickEvent = new Event("click");
     buttonElement.dispatchEvent(clickEvent);
 
-    expect(component.loaded.vm.exportModal).toBeTruthy();
-    component.loaded.vm.arrayResults = [];
+    expect(component.default.vm.exportModal).toBeTruthy();
+    component.default.vm.arrayResults = [];
   });
 
   test("button should export visualized arrays", async () => {
@@ -77,19 +71,24 @@ describe("Visualizer.vue", () => {
       expect(file.constructor.name).toBe("File");
     });
 
-    fillArrayResults(component.loaded);
+    fillArrayResults(component.default);
 
     await sleep();
 
-    const exportFileType = component.loaded.vm.$enums.JSON_FILE_FORMAT;
-    component.loaded.vm.exportArrays(exportFileType);
+    const exportFileType = component.default.vm.$enums.JSON_FILE_FORMAT;
+    component.default.vm.exportArrays(exportFileType);
   });
 
   test("visualize button should disable interact elements", () => {
-    const button = component.loaded.find(".visualize-arrays");
+    component.default.vm.arrays = {
+      1: generateArray(2),
+      2: generateArray(2),
+    };
+
+    const button = component.default.find(".visualize-arrays");
     const buttonElement = button.wrapperElement;
 
-    let interact = component.loaded.findAll(".interact");
+    let interact = component.default.findAll(".interact");
 
     for (let element of interact) {
       element = element.wrapperElement;
@@ -99,11 +98,13 @@ describe("Visualizer.vue", () => {
     const clickEvent = new Event("click");
     buttonElement.dispatchEvent(clickEvent);
 
-    interact = component.loaded.findAll(".interact");
+    interact = component.default.findAll(".interact");
 
     for (let element of interact) {
       element = element.wrapperElement;
       expect(element.disabled).toBeTruthy();
     }
+
+    component.default.vm.arrays = {};
   });
 });

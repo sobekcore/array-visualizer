@@ -19,14 +19,14 @@ export default {
   methods: {
     showIconsAfterLoad() {
       if (document.readyState !== "complete") {
-        let icon = this.$refs.icon;
+        const icon = this.$refs.icon;
         icon.className += " hide-icon";
         window.addEventListener("load", this.makeIconsVisible, { once: true });
       }
     },
     makeIconsVisible() {
-      let icon = this.$refs.icon;
-      let className = icon.className;
+      const icon = this.$refs.icon;
+      const className = icon.className;
       icon.className = this.$utility.removeAfterLastChar(className, " ");
     },
   },
